@@ -17,8 +17,12 @@ function displayTests(newTest){
         if(Number(i) < localStorage.getItem(`${currentLabID}`)){
           return "fadeOut";
         }
-      }()}>
-      <h2>{Number(i) + 1}) {newQuestion.title}</h2>
+      }()}>      
+      {function(){
+        if(newQuestion.title !== '' || newQuestion.number !== ''){
+          return <h2>{newQuestion.number ? newQuestion.number+")" : ""} {newQuestion.title ? newQuestion.title : ""}</h2>
+        }
+      }()}
       <p dangerouslySetInnerHTML={ { __html: newQuestion.text}}></p>
     <div className={`example` + function(){
       if(newQuestion.example.trim() === ""){

@@ -21,7 +21,7 @@ class Test{
   }
   nextQuestion(){
     this.currentQuestion++;
-    if(typeof(this.testQuestionSet[this.currentQuestion]) != "undefined"){
+    if(this.testQuestionSet[this.currentQuestion].startingCode !== ("keep previous" || undefined)){
       editor.getDoc().setValue(this.testQuestionSet[this.currentQuestion].startingCode);  
     }
     localStorage.setItem(("textArea" + currentLabID), editor.getValue());
@@ -44,6 +44,7 @@ class Test{
   }
 }
 class Question{
+  number;
   title;
   text; //Question - a string
   example;
@@ -54,6 +55,7 @@ class Question{
   //we got three types of questions so far, asking for console.logs; asking to create variables with specific values, function name and expected inputs/outputs
   startingCode;
   constructor(data){
+    this.number = data.number || "";
     this.text = data.text || "";
     this.logs = data.logs || [];
     this.vars = data.vars || [];
