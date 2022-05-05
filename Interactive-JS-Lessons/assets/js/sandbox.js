@@ -55,7 +55,7 @@ function fetchData(newLabID){
 }
 
 function checkTests(){
-  if(failedTests.size() === 0){
+  if(window.failedTests.size() === 0){
     $(`#test-num-${newTest.currentQuestion}`).addClass("fadeOut");
     logToPage("you passed!");
     if(Number(newTest.currentQuestion) == newTest.testQuestionSet.length-1){
@@ -65,7 +65,7 @@ function checkTests(){
   }else{
     logToPage("you failed!");
     while(window.failedTests.size() > 0){
-      logToPage(failedTests.pop());
+      logToPage(window.failedTests.pop());
     }
   }
 }
@@ -115,6 +115,10 @@ function addRunButtonEventListener(element, newTest){
 }
 
 function runCurrentTest(newTest){
+  if((typeof(newTest.returnCurrentQuestion()) === "undefined" || activeAnimationListener.active > 0)){
+    return;
+  }
+
   localStorage.setItem(("textArea" + currentLabID), editor.getValue());
   editor.getDoc().setValue(localStorage.getItem(("textArea" + currentLabID)));  
   enableLineAnimations = function(){
@@ -135,9 +139,6 @@ function runCurrentTest(newTest){
   //******************
   //hijack console.log
   //******************
-  if((typeof(newTest.returnCurrentQuestion()) === "undefined" || activeAnimationListener.active > 0)){
-    return;
-  }
 
   window.logToPage  = function(){
       var args = [...arguments];
@@ -159,7 +160,7 @@ function runCurrentTest(newTest){
   try{
     var injection = generateInjection(newTest);
   }catch(error){
-    failedTests.push(error);
+    window.failedTests.push(error);
     logToPage(error);
     console.log(error);
   }
@@ -167,7 +168,7 @@ function runCurrentTest(newTest){
   try{ //"just wrap it in a try catch"
     Function(injection.join("\n"))(); //we should look into this option, though I wasn't able to access internal variables and functions https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
   }catch(error){
-    failedTests.push(error);
+    window.failedTests.push(error);
     logToPage(error);
     console.log(error);
   }

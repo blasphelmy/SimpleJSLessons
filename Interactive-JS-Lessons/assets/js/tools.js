@@ -22,13 +22,17 @@ async function visualizeLineNumbers(hash, logs){
       if(typeof(gutter[lineNum]) !== "undefined"){
         gutter[lineNum].style.background = "limegreen";
       }
+
       setTimeout(function(){
         if(typeof(gutter[lineNum]) !== "undefined"){
           gutter[lineNum].style.background = "none";
         }
         activeAnimationListener.active--;
-      }, gutterDelay);
+      }, (Number(gutterDelay) + 15));
+
+
     }, gutterDelay * gutterCounter);
+
       gutterCounter++;
   }
 }
@@ -63,10 +67,16 @@ function injectHelpers(array, start){
     if(typeof(start) === "undefined"){
         start = 0;
     }
+
     for(let string of array){
       string = string.split(/\/\//)[0];
       stringTests.getIndexOfandPop(string.toString());
     }
+    while(stringTests.size() > 0){
+      let failedTest = "Failed to detect line : " + stringTests.pop();
+      window.failedTests.push(failedTest);
+    }
+
     for(let i = start; i < array.length; i++){ //this is bound to cause bugs later on.
       let x = i; //preserve line number
       array[i] = array[i].trim();
@@ -378,10 +388,6 @@ function injectHelpers(array, start){
         }
         // console.log(newStack);
     }
-    while(stringTests.size() > 0){
-      let failedTest = "Failed to detect line : " + stringTests.pop();
-      window.failedTests.push(failedTest);
-    }
     newArray = trimStringInArray(newArray);
     newArray = removeEmptyIndices(newArray);
     return newArray;
@@ -403,8 +409,8 @@ function makeConsoleTester(logs){ //please remake this
     var logs = ${JSON.stringify(logs)};
     for(log of logs){
       if(!searchFramesForConsoleLogging(log.val, log.scopeName, currentFrame)){
-         failedTests.push("Expected scope : " + log.scopeName);
-        failedTests.push("Failed to detect console.log output: " + log.val);
+         window.failedTests.push("Expected scope : " + log.scopeName);
+        window.failedTests.push("Failed to detect console.log output: " + log.val);
       }
     }
     `
@@ -420,15 +426,15 @@ function makeVariableTester(vars){
     try{
       if(variable.scopeName === undefined){
         if(JSON.stringify(eval(variable.name)) != JSON.stringify(variable.val)){
-          failedTests.push("Unable to find or match variable " + variable.name + " of type " + variable.type);
+          window.failedTests.push("Unable to find or match variable " + variable.name + " of type " + variable.type);
         }
       }else{
         if(searchFramesForVariable(variable.name, variable.val, variable.type, currentFrame, variable.scopeName) === false){
-          failedTests.push("Unable to find or match variable " + variable.name + " of type " + variable.type);
+          window.failedTests.push("Unable to find or match variable " + variable.name + " of type " + variable.type);
         };
       }
     }catch{
-      failedTests.push("Unable to find or match variable " + variable.name + " of type " + variable.type);
+      window.failedTests.push("Unable to find or match variable " + variable.name + " of type " + variable.type);
     }
   }
   `
@@ -448,12 +454,12 @@ function makeFunctionTester(functs){
         try{
           var x = ${fnCall};
           if(x !== ${test.output}){
-            failedTests.push(${JSON.stringify(fnCall)});
+            window.failedTests.push(${JSON.stringify(fnCall)});
             console.log("in function : ${name}, your output: ", x, "expected output: ${test.output}");
             return;
           }
         }catch{
-          failedTests.push(${JSON.stringify(fnCall)});
+          window.failedTests.push(${JSON.stringify(fnCall)});
           console.log("error : function ${name} not found");
           return;
         }
