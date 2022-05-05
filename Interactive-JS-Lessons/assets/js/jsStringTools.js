@@ -62,7 +62,7 @@ function breakIntoComponents(inputString) {
       for (let i in inputString) {
         let newHash = hash(i + newSeed + "");
         inputString[i] = cleanString(inputString[i]) + "//lineNumber=" + newHash;
-        lineNumberMap.set(newHash, i);
+        lineNumberMap.set(newHash, Number(i));
       }
       inputString = trimStringInArray(inputString);
       inputString = removeEmptyIndices(inputString);

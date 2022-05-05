@@ -12,7 +12,7 @@ var labID = function(){
   return number;
 };
 async function visualizeLineNumbers(hash, logs){
-  if(lineNumberMap.get(hash)){
+  if(lineNumberMap.get(hash) || lineNumberMap.get(hash) === 0){
     let lineNum = lineNumberMap.get(hash);
     setTimeout(function(){
       activeAnimationListener.active++;
@@ -90,12 +90,10 @@ function injectHelpers(array, start){
             var inputs = trimStringInArray(array[i].split("function ")[1].split(/[(|)]/)[1].split(","));
             // console.log("inputs: ", inputs);
             // console.log("functionName", functionName);
-            if(enableLineAnimations === true){
-              newArray.push(`visualizeLineNumbers(${hash});`);
-            }
             newArray.push(`{
               let tempFrame = currentFrame.returnPreviousFunctionScope();
               tempFrame.declaredFunctions.set("${functionName}", currentFrame);
+              if(enableLineAnimations === true){visualizeLineNumbers(${hash});}
             }`);
             // newArray.push(`visualizeLineNumbers(${hash});`);
             newArray.push(array[i]);
