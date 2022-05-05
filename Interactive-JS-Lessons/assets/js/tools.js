@@ -111,6 +111,20 @@ function injectHelpers(array, start){
             }
             // newArray.push(`functionDeclared.set("${functionName}", currentFrame);`);
         }
+        else if(array[i].match(/^class/)){
+          let end = findMatching(array, i, "{");
+          do{
+            newArray.push(array[i]);
+            i++;
+          }while(i <= end);
+        }
+        else if(array[i].match(/^switch/)){
+          let end = findMatching(array, i, "{");
+          do{
+            newArray.push(array[i]);
+            i++;
+          }while(i <= end);
+        }
         else if(array[i].match(/(^if)/) || array[i].match(/(^else)/)){ 
           var hash;
           if(enableLineAnimations === true){
@@ -152,7 +166,6 @@ function injectHelpers(array, start){
           }
           newArray.push(`if(f${hash} === false){currentFrame = new Frame(currentFrame, "forLoopBlock", "blocked");}f${hash} = true`);
         } 
-
         else if((/(^while)/g).test(array[i])){
           if(enableLineAnimations === true){
             var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
@@ -165,7 +178,7 @@ function injectHelpers(array, start){
             newArray.push(`visualizeLineNumbers(${hash});`);
           }
           newArray.push(`currentFrame = new Frame(currentFrame, "whileLoopBlock", "blocked");`);
-        } 
+        }
         else if(array[i].match(/(^var)+([ ]+)/)){
           var variableName = array[i].split(/\/\//)[0].split(/^var/)[1].trim().split(/[=]/)[0].trim().split(/[;]/)[0];
           if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" || array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
@@ -313,7 +326,7 @@ function injectHelpers(array, start){
           }
           }`);
         }  
-        else if(array[i].match(/}/g)){
+        else if(array[i].match(/([}])(?![^(|"|']*\)|"|')/g)){
             if(newStack.peek() === "{"){
               newArray.push(array[i]);
               newStack.pop();
@@ -378,7 +391,7 @@ function injectHelpers(array, start){
             newStack.pop();
           }
         }
-        else if(array[i].match(/{/)){
+        else if(array[i].match(/([{])(?![^(|"|']*\)|"|')/)){
           if(newStack.peek() === "anonFunctionOrObject" || newStack.peek() === "variableRedeclaration"  || newStack.peek() === "{"){ //i learned a new syntax today
             newArray.push(array[i]);
             newStack.push("{");

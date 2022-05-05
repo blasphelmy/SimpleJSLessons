@@ -12,6 +12,32 @@ function splitBySemi(array) {
   }
   return newArray;
 }
+function findMatching(array, start, token) { //token = "(" pr "{"
+  //raw string -> breakIntoComponents() first. start is the index of the array where a function declartion is detected.
+  var token_2 = null;
+  if (token === "{") {
+    token_2 = "}";
+  } else if (token === "(") {
+    token = (/([(])/);
+    token_2 = (/([)])/);
+  }
+  var count = 0;
+  var endLine = -1;
+  for (index = start; index < array.length; index++) {
+    if (array[index].search(token) > -1) {
+      count = count + 1;
+    }
+    if (array[index].search(token_2) > -1) {
+      count = count - 1;
+    }
+    if (count === 0 && array[index].search(token_2) > -1) {
+      endLine = index;
+      break;
+    }
+    // console.log(count);
+  }
+  return endLine;
+}
 function detectFunctionCalls(string) {
   const detectFunctCalls = new RegExp(/(^[a-zA-Z0-9]+)+([ ]*)+([(])+([a-z,A-Z,0-9,\s,.,+,-,*,/,=,"]*)+([)])/gm);
   //make improvements here https://regex101.com/r/MqSsCA/1
@@ -55,9 +81,9 @@ function checkForIllegalKW(string) {
 function breakIntoComponents(inputString) {
   inputString = inputString.split("\n");
       inputString = commentsCleanse(inputString);
-      if (checkForIllegalKW(inputString.join("\n"))) {
-        return;
-      }
+      // if (checkForIllegalKW(inputString.join("\n"))) {
+      //   return;
+      // }
       let newSeed = Math.random() * 17;
       for (let i in inputString) {
         let newHash = hash(i + newSeed + "");
@@ -67,11 +93,11 @@ function breakIntoComponents(inputString) {
       inputString = trimStringInArray(inputString);
       inputString = removeEmptyIndices(inputString);
       // inputString.match(/[^\;]+\;?|\;/g);
-      var outputArray = splitByBrackets(inputString);
+      inputString = splitByBrackets(inputString);
       //  outputArray = combineSemiColonsWithPreviousLines(outputArray);
-      outputArray = removeEmptyIndices(outputArray);
-      outputArray = injectHelpers(outputArray);
-  return outputArray;
+      inputString = removeEmptyIndices(inputString);
+      inputString = injectHelpers(inputString);
+  return inputString;
 }
 function commentsCleanse(array) {
   let newArray = new Array();
@@ -89,7 +115,7 @@ function commentsCleanse(array) {
 function splitByBrackets(inputString) {
   var outputArray = new Array();
   for (var x = 0; x < inputString.length; x++) {
-    var temp = inputString[x].split(/([}{])/g);
+    var temp = inputString[x].split(/([{}])(?![^(|"|']*\)|"|')/g);
     for (var index = 0; index < temp.length; index++) {
       outputArray.push(temp[index]);
     }
