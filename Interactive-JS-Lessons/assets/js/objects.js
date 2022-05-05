@@ -21,12 +21,16 @@ class Test{
   }
   nextQuestion(){
     this.currentQuestion++;
-    if(this.testQuestionSet[this.currentQuestion].startingCode !== ("keep previous" || undefined)){
-      editor.getDoc().setValue(this.testQuestionSet[this.currentQuestion].startingCode);  
+    try{
+      if(this.testQuestionSet[this.currentQuestion].startingCode !== undefined ||  "keep previous"){
+        editor.getDoc().setValue(this.testQuestionSet[this.currentQuestion].startingCode);  
+    }
+    }catch(error){
+      console.log(error);
     }
     localStorage.setItem(("textArea" + currentLabID), editor.getValue());
     localStorage.setItem(`${currentLabID}`, newTest.currentQuestion);
-    if(this.currentQuestion > this.testQuestionSet.length-1){
+    if(this.currentQuestion > this.testQuestionSet.length){
       localStorage.setItem(`${currentLabID}`, this.testQuestionSet.length+1);
     }
     if(this.currentQuestion >= this.testQuestionSet.length){

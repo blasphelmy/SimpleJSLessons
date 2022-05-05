@@ -20,7 +20,7 @@ function displayTests(newTest){
       }()}>      
       {function(){
         if(newQuestion.title !== '' || newQuestion.number !== ''){
-          return <h2>{newQuestion.number ? newQuestion.number+")" : ""} {newQuestion.title ? newQuestion.title : ""}</h2>
+          return <h2>{newQuestion.number ? newQuestion.number+")" : ""}{newQuestion.title ? newQuestion.title : ""}</h2>
         }
       }()}
       <p dangerouslySetInnerHTML={ { __html: newQuestion.text}}></p>
