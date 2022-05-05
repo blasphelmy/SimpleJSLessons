@@ -60,7 +60,6 @@ function injectHelpers(array, start){
           newArray.push(string);
         }  
       }
-      console.log(newArray)
       return newArray;
     }
     
@@ -315,7 +314,11 @@ function injectHelpers(array, start){
           }`);
         }  
         else if(array[i].match(/}/g)){
-          if(newStack.peek() === "anonFunctionOrObject"){
+            if(newStack.peek() === "{"){
+              newArray.push(array[i]);
+              newStack.pop();
+            }
+            else if(newStack.peek() === "anonFunctionOrObject"){
             // console.log("hello");
             newStack.pop();
             if(enableLineAnimations === true){
@@ -350,10 +353,6 @@ function injectHelpers(array, start){
             }
             newArray.push(`currentFrame.updateVariable("${variableName}", ${variableName});`);
           }
-          else if(newStack.peek() === "{"){
-            newArray.push(array[i]);
-            newStack.pop();
-          }
           else if(newStack.peek() === "blockscope"){
             if(enableLineAnimations === true){
               var hash = array[i+1].split(/\/\//)[1].split(/[=]/)[1];
@@ -380,7 +379,7 @@ function injectHelpers(array, start){
           }
         }
         else if(array[i].match(/{/)){
-          if(newStack.peek() === "anonFunctionOrObject" || "variableRedeclaration" || "{"){ //i learned a new syntax today
+          if(newStack.peek() === "anonFunctionOrObject" || newStack.peek() === "variableRedeclaration"  || newStack.peek() === "{"){ //i learned a new syntax today
             newArray.push(array[i]);
             newStack.push("{");
           }else{
@@ -400,7 +399,7 @@ function injectHelpers(array, start){
           newArray.push(array[i]);
         }
         else{
-          if(enableLineAnimations === true){
+          if(enableLineAnimations === true && newStack.peek() !== "variableRedeclaration" && newStack.peek() !== "anonFunctionOrObject" && !array[i].match(/[:]/)){
           var hash = array[i].split(/\/\//)[1].split(/[=]/)[1];
           if(!array[i].match(/(^\/\/)/)){
             newArray.push(`visualizeLineNumbers(${hash});`);

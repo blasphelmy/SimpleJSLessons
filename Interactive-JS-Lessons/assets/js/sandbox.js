@@ -157,13 +157,13 @@ function runCurrentTest(newTest){
   //run user input
   //**************
   window.failedTests = new Stack(); //very interesting
-  try{
+  // try{
     var injection = generateInjection(newTest);
-  }catch(error){
-    window.failedTests.push(error);
-    logToPage(error);
-    console.log(error);
-  }
+  // }catch(error){
+  //   window.failedTests.push(error);
+  //   logToPage(error);
+  //   console.log(error);
+  // }
   console.log("injection", injection.join("\n"));
   try{ //"just wrap it in a try catch"
     Function(injection.join("\n"))(); //we should look into this option, though I wasn't able to access internal variables and functions https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
