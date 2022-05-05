@@ -245,6 +245,9 @@ class Frame { //SHOULD PROBABLY ABSTRACT
     return newFrame;
   }
   addVariable(type, name, value){
+    if(type === "window"){
+      this.returnDefaultFrame().variables.set(name, new Variable(type, name, value));
+    }
     if(type === "var"){
       var newFrame = this;
       while(newFrame.type === "blocked"){

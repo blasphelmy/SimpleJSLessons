@@ -241,6 +241,30 @@ function injectHelpers(array, start){
           newArray.push(array[i]);
           newArray.push(`currentFrame.addVariable("const", "${variableName}", ${variableName});`);
       }
+      else if(array[i].match(/(^window)/)){
+        var variableName = array[i].split(/\/\//)[0].split("=")[0].split(".")[1];
+        if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
+          if(enableLineAnimations === true){
+            var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
+          }
+          newArray.push(array[i]);
+          i++;
+          newArray.push(array[i]);  
+          newStack.push(variableName);
+          newStack.push("window");
+          if(enableLineAnimations === true){
+            newStack.push(hash);
+          }
+          newStack.push("anonFunctionOrObject");
+          continue;
+        }
+        if(enableLineAnimations === true){
+          var hash = array[i].split(/\/\//)[1].split(/[=]/)[1];
+          newArray.push(`visualizeLineNumbers(${hash});`);
+        }
+        newArray.push(array[i]);
+        newArray.push(`currentFrame.addVariable("window", "${variableName}", ${variableName});`);
+      }
       else if(detectStatementVariableReassignment(array[i])){
           var variableName = array[i].split(/=/)[0].trim();  
           if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){
