@@ -246,7 +246,8 @@ class Frame { //SHOULD PROBABLY ABSTRACT
   }
   addVariable(type, name, value){
     if(type === "window"){
-      this.returnDefaultFrame().variables.set(name, new Variable(type, name, value));
+      name = name.split(".")[1].trim();
+      this.returnDefaultFrame().variables.set(name, new Variable("default", name, value));
     }
     if(type === "var"){
       var newFrame = this;

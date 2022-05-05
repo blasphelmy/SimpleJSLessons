@@ -171,7 +171,7 @@ function injectHelpers(array, start){
         } 
         else if(array[i].match(/(^var)+([ ]+)/)){
           var variableName = array[i].split(/\/\//)[0].split(/^var/)[1].trim().split(/[=]/)[0].trim().split(/[;]/)[0];
-          if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
+          if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" || array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
             if(enableLineAnimations === true){
               var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
             }
@@ -195,7 +195,7 @@ function injectHelpers(array, start){
         }
         else if(array[i].match(/(^let)+([ ]+)/)){
             var variableName = array[i].split(/\/\//)[0].split(/^let/)[1].trim().split(/[=]/)[0].trim().split(/[;]/)[0];
-            if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
+            if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" || array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
               if(enableLineAnimations === true){
                 var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
               }
@@ -219,7 +219,7 @@ function injectHelpers(array, start){
         }
         else if(array[i].match(/(^const)+([ ]+)/)){
           var variableName = array[i].split(/\/\//)[0].split(/^const/)[1].trim().split(/[=]/)[0].trim().split(/[;]/)[0];
-          if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
+          if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" || array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
             if(enableLineAnimations === true){
               var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
             }
@@ -242,8 +242,8 @@ function injectHelpers(array, start){
           newArray.push(`currentFrame.addVariable("const", "${variableName}", ${variableName});`);
       }
       else if(array[i].match(/(^window)/)){
-        var variableName = array[i].split(/\/\//)[0].split("=")[0].split(".")[1];
-        if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
+        var variableName = array[i].split(/\/\//)[0].split("=")[0];
+        if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" || array[i].split("=")[1].trim().match(/(^function)/))){ //tests if anon function is declared
           if(enableLineAnimations === true){
             var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
           }
@@ -267,7 +267,7 @@ function injectHelpers(array, start){
       }
       else if(detectStatementVariableReassignment(array[i])){
           var variableName = array[i].split(/=/)[0].trim();  
-          if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" && array[i].split("=")[1].trim().match(/(^function)/))){
+          if(i !== (array.length -1) && array[i+1].match(/[{]/) && (array[i].split("=")[1].trim() === "" || array[i].split("=")[1].trim().match(/(^function)/))){
             if(enableLineAnimations === true){
               var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
             }
@@ -382,7 +382,7 @@ function injectHelpers(array, start){
           }
         }
         else if(array[i].match(/{/)){
-          if(newStack.peek() === ("anonFunctionOrObject" || "variableRedeclaration" || "{")){ //i learned a new syntax today
+          if(newStack.peek() === "anonFunctionOrObject" || "variableRedeclaration" || "{"){ //i learned a new syntax today
             newArray.push(array[i]);
             newStack.push("{");
           }else{
