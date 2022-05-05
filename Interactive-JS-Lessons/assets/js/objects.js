@@ -22,7 +22,7 @@ class Test{
   nextQuestion(){
     this.currentQuestion++;
     try{
-      if(this.testQuestionSet[this.currentQuestion].startingCode !== undefined ||  "keep previous"){
+      if(this.testQuestionSet[this.currentQuestion].startingCode !== "keep previous" ||  undefined){
         editor.getDoc().setValue(this.testQuestionSet[this.currentQuestion].startingCode);  
     }
     }catch(error){
