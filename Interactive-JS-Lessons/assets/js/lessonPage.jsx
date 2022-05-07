@@ -44,7 +44,10 @@ function displayDemo(data){
   var elements = new Array();
   elements.push(function(){
     return (
-      <section dangerouslySetInnerHTML={ { __html: data.html}}></section>
+      <section>
+        <h1>{data.title}</h1>
+        <div dangerouslySetInnerHTML={ { __html: data.html}}></div>
+      </section>
       );
   }());
   root.render(elements);
