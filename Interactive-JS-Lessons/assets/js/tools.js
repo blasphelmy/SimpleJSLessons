@@ -36,11 +36,17 @@ async function visualizeLineNumbers(hash, logs){
       gutterCounter++;
   }
 }
-function injectHelpers(array, start){
+var injectHelpers = function (array, start){
   // console.log("array before injection : ", array);
     var newArray = new Array();
     var newStack = new Stack();
-    let stringtestdata = newTest.returnCurrentQuestion().stringsTests;
+    let stringtestdata = function(){
+      if(newTest.js){
+        return [];
+      }else{
+        return newTest.returnCurrentQuestion().stringsTests;
+      }
+    }();
     let stringTests = new Stack(JSON.parse(JSON.stringify(stringtestdata))) || new Stack();
     if(sandboxMode){
       let newArray = new Array();
@@ -110,6 +116,14 @@ function injectHelpers(array, start){
               newArray.push(`visualizeLineNumbers(${hash});`);
             }
             // newArray.push(`functionDeclared.set("${functionName}", currentFrame);`);
+        }
+        else if(array[i].match(/(function)+([ ]*)+([(])/)){
+          let end = findMatching(array, i, "{");
+          do{
+            newArray.push(array[i]);
+            i++;
+          }while(i <= end);
+          newArray.push(array[i]);
         }
         else if(array[i].match(/^class/)){
           let end = findMatching(array, i, "{");

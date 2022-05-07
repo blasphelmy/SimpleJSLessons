@@ -1,6 +1,7 @@
 'use strict';
+var displayContents;
 
-function displayTests(newTest){
+function displayTests (newTest){
   var lessonPage = document.getElementById("lessonPage");
   var root = ReactDOM.createRoot(lessonPage);
   var elements = new Array();
@@ -34,5 +35,17 @@ function displayTests(newTest){
   </section>)
     }());
   }
+  root.render(elements);
+}
+
+function displayDemo(data){
+  var lessonPage = document.getElementById("lessonPage");
+  var root = ReactDOM.createRoot(lessonPage);
+  var elements = new Array();
+  elements.push(function(){
+    return (
+      <section dangerouslySetInnerHTML={ { __html: data.html}}></section>
+      );
+  }());
   root.render(elements);
 }

@@ -81,9 +81,9 @@ function checkForIllegalKW(string) {
 function breakIntoComponents(inputString) {
   inputString = inputString.split("\n");
       inputString = commentsCleanse(inputString);
-      // if (checkForIllegalKW(inputString.join("\n"))) {
-      //   return;
-      // }
+      if (checkForIllegalKW(inputString.join("\n"))) {
+        return;
+      }
       let newSeed = Math.random() * 17;
       for (let i in inputString) {
         let newHash = hash(i + newSeed + "");

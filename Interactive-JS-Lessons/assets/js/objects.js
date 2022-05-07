@@ -1,9 +1,14 @@
 class Test{
   title;
   text;
+  html;
+  js;
   testQuestionSet;
   currentQuestion;
   constructor(data){
+    this.js = data.js;
+    this.html = data.html;
+    this.type = data.type;
     this.title = data.title;
     this.text = data.text;
     this.testQuestionSet = new Array();
