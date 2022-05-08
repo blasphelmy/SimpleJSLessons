@@ -6,6 +6,7 @@
   height: 70%;
   color: black;
   direction: ltr;
+  z-index: 0;
 }
 
 /* PADDING */

@@ -156,40 +156,6 @@ function combineSemiColonsWithPreviousLines(array) { //cause i cant figure out h
   newArray = removeEmptyIndices(newArray);
   return newArray;
 }
-function splitIntoTokens(array) { //ONLY USE THIS AFTER INPUT STRING IS COMPLETELY BROKEN DOWN AND CLEANSED.
-  var newArray = new Array();
-  for (var index = 0; index < array.length; index++) {
-    //FOR FUNCTION DECLARATIONS
-    if (array[index].match(/(^function)+([ ]+)/gm)) {
-      var temp = array[index].split(/(^function)+([ ]+)/gm);
-      temp = removeEmptyIndices(temp);
-      temp[0] = temp[0] + " ";
-      // console.log(temp);
-      for (var x = 0; x < temp.length; x++) {
-        newArray.push(temp[x]);
-      }
-    }
-    //FOR VARIABLE DECLARATIONS
-    else if (array[index].match(/(^var)+([ ]+)/gm)) {
-      var temp = array[index].split(/(^var)+([ ]+)/gm);
-      temp = removeEmptyIndices(temp);
-      temp[0] = temp[0] + " ";
-      for (var x = 0; x < temp.length; x++) {
-        newArray.push(temp[x]);
-      }
-    } else if (array[index].match(/(^let)+([ ]+)/gm)) {
-      var temp = array[index].split(/(^let)+([ ]+)/gm);
-      temp = removeEmptyIndices(temp);
-      temp[0] = temp[0] + " ";
-      for (var x = 0; x < temp.length; x++) {
-        newArray.push(temp[x]);
-      }
-    } else { //EVERYTHING ELSE SHOULD JUST BE REGULAR STATEMENTS, ei variable declare / redeclaration, function calls,  in theory this method should allow for the addition of if's loops etc...
-      newArray.push(array[index]);
-    }
-  }
-  return newArray;
-}
 function detectStatementVariableReassignment(string) {
   const detectVarReassignStatement = new RegExp(/^([a-zA-Z0-9]*[ ]*[=][ , a-zA-Z, 0-9, *, /, +, -, ;]*)/gm);
   //improve this regex here: https://regex101.com/r/Gp6J3c/1

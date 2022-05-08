@@ -191,9 +191,8 @@ console {
             <button data-bs-target="#navcol-1" data-bs-toggle="collapse" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-dark navbar-toggler-icon"></span></button>
         </div>
     </nav>
-    <div class="d-flex">
-        <div id="lessonPage" class="heightAdjustment" style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
-        
+    <div class="d-flex" style="flex-direction:row-reverse">
+
         <div class="heightAdjustment" style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
             <span id="btnContainer" style="position: relative; top:0;"><button id="loadJS">js</button><button id="loadCSS">css</button><button id="loadHTML">html</button></span>
             <script>
@@ -238,12 +237,10 @@ console {
                     </script>
                 </span>
             </div>
-            <div id="ConsoleContainer">
-                <!-- <console class="tick">> hello world</console>
-                <console class="tock">> 1</console>
-                <console class="tick">> 10</console> -->
-            </div>
+            <div id="ConsoleContainer"></div>
         </div>
+
+        <div id="lessonPage" class="heightAdjustment" style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
     </div>
 <!-- react scripts -->
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
