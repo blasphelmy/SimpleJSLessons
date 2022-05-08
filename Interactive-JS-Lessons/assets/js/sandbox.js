@@ -50,6 +50,7 @@ function fetchData(newLabID) {
     }
     else {
       if (data.type === "demo") {
+        $("#btnContainer").css("display", "inline");
         newTest = new Test(data);
         newTest.html = localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html;
         newTest.css = localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css;
@@ -65,6 +66,9 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           }
         }
+        $("#sandboxModeState").prop("checked", true);
+        $("#sandboxModeState").prop("disabled", true);
+        $("#lineAnimationCheckbox").prop("disabled", true);
         displayContents = displayDemo;
         init(newTest);
       } else if (data.testQuestionSet) {
@@ -86,7 +90,6 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           }
         }
-        document.getElementById("btnContainer").style.setProperty("display", "none");
         displayContents = displayTests;
         init(newTest);
       }

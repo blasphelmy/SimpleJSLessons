@@ -194,9 +194,20 @@ console {
     <div class="d-flex" style="flex-direction:row-reverse">
 
         <div class="heightAdjustment" style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
-            <span id="btnContainer" style="position: relative; top:0;"><button id="loadJS">js</button><button id="loadCSS">css</button><button id="loadHTML">html</button></span>
+            <span id="btnContainer" style="position: relative; top:0;display:none"><button id="loadJS">js</button><button id="loadCSS">css</button><button id="loadHTML">html</button></span>
             <script>
-
+                document.getElementById("loadJS").addEventListener("click", function(){
+                    activeContent = "JS";
+                    editor.setValue(localStorage.getItem("textArea" + currentLabID));
+                });
+                document.getElementById("loadCSS").addEventListener("click", function(){
+                    activeContent = "CSS";
+                    editor.setValue(localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css);
+                });
+                document.getElementById("loadHTML").addEventListener("click", function(){
+                    activeContent = "HTML";
+                    editor.setValue(localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html);
+                });
             </script>
             <div id="codeEditor" style="width: 100%;"></div>
             <div id="runButtonContainer" class="noselect">

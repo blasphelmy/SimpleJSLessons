@@ -1,17 +1,4 @@
 window.onload = function(){
-    document.getElementById("loadJS").addEventListener("click", function(){
-        activeContent = "JS";
-        editor.setValue(localStorage.getItem("textArea" + currentLabID));
-    });
-    document.getElementById("loadCSS").addEventListener("click", function(){
-        activeContent = "CSS";
-        editor.setValue(localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css);
-    });
-    document.getElementById("loadHTML").addEventListener("click", function(){
-        activeContent = "HTML";
-        editor.setValue(localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html);
-    });
-
     var element = document.getElementsByClassName("heightAdjustment");
     var elementOffSetter = document.getElementById("navBar");
     fillVerticalHeight(element, elementOffSetter.offsetHeight);
