@@ -427,6 +427,7 @@
                             })
                         }
                         fetch('http://137.184.237.82:3000/postLab', newPost).then((response) => response.json()).then((data) => {
+                            alert(`Your new demo will be available to view at \nhttp://simplejsclasses.net/Interactive-JS-Lessons/?labID=${data.URL}`)
                             window.location.href = "?labID=" + data.URL;
                         });
                     }
