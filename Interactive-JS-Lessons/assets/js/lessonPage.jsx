@@ -46,6 +46,7 @@ function displayDemo(data){
     return (
       <section>
         <h1>{data.title}</h1>
+        <style dangerouslySetInnerHTML={ { __html: data.css}}></style>
         <div dangerouslySetInnerHTML={ { __html: data.html}}></div>
       </section>
       );

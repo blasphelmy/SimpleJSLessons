@@ -184,14 +184,17 @@ var injectHelpers = function (array, start){
           if(enableLineAnimations === true){
             var hash = array[i+2].split(/\/\//)[1].split(/[=]/)[1];
           }
-          newStack.push("blockscope");
+          newStack.push("whileLoopBlock");
+          newArray.push(`
+          var parentFrame = currentFrame;
+          {
+            let currentFrame = new Frame(parentFrame, "whileLoopBlock", "blocked");`);
           newArray.push(array[i]);
           i++;
           newArray.push(array[i]);
           if(enableLineAnimations === true){
             newArray.push(`visualizeLineNumbers(${hash});`);
           }
-          newArray.push(`currentFrame = new Frame(currentFrame, "whileLoopBlock", "blocked");`);
         }
         else if(array[i].match(/(^var)+([ ]+)/)){
           var variableName = array[i].split(/\/\//)[0].split(/^var/)[1].trim().split(/[=]/)[0].trim().split(/[;]/)[0];
@@ -387,6 +390,15 @@ var injectHelpers = function (array, start){
             }
             newArray.push('currentFrame = currentFrame.previousFrame;');
             newArray.push(array[i]);
+            newStack.pop();
+          }
+          else if(newStack.peek() === "whileLoopBlock"){
+            if(enableLineAnimations === true){
+              var hash = array[i+1].split(/\/\//)[1].split(/[=]/)[1];
+              newArray.push(`visualizeLineNumbers(${hash});`);
+            }
+            newArray.push(array[i]);
+            newArray.push('}');
             newStack.pop();
           }
           else if(newStack.peek() === "forBlockscope"){

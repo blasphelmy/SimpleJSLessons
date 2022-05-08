@@ -2,12 +2,14 @@ class Test{
   title;
   text;
   html;
+  css;
   js;
   testQuestionSet;
   currentQuestion;
   constructor(data){
     this.js = data.js;
     this.html = data.html;
+    this.css = data.css;
     this.type = data.type;
     this.title = data.title;
     this.text = data.text;

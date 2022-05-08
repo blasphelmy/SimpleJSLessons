@@ -3,6 +3,7 @@ var editor;
 var newTest;
 var gutter;
 var getInitStartingCode;
+var activeContent = "JS";
 var activeAnimationListener = { 
   aInternal: 0,
   aListener: function (val) { },
@@ -18,7 +19,7 @@ var activeAnimationListener = {
   }
 }
 activeAnimationListener.registerListener(function (val) {
-  if (val === 0) {
+  if (val === 0 && newTest.type !== "demo") {
     checkTests();
     gutterDelay = document.getElementById("exceSlider").value;
     document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay/1000).toLocaleString("en",{useGrouping: false,minimumFractionDigits: 2}) + "s ";
@@ -50,42 +51,42 @@ function fetchData(newLabID){
       else{
         if(data.type === "demo"){
           newTest = new Test(data);
+          newTest.html = localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html;
+          newTest.css = localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css;
           getInitStartingCode = function(){
-            if(localStorage.getItem(("textArea" + currentLabID)) && localStorage.getItem(("textArea" + currentLabID)) !== "//your code here"){
-              return localStorage.getItem(("textArea" + currentLabID));
-          }else{
-              try{
-                localStorage.setItem(("textArea" + currentLabID), data.js);
-              }catch{
-                localStorage.setItem(("textArea" + currentLabID), "//your code here");
-              }
-              return localStorage.getItem(("textArea" + currentLabID));
-          }
-          }
-          displayContents = displayDemo;
-          init(newTest);
-        }else if(data.testQuestionSet){
-            newTest = new Test(data);
-            getInitStartingCode = function(){
-              document.getElementById("codeEditor").addEventListener("keyup", function(){
-                  localStorage.setItem(("textArea" + currentLabID), editor.getValue());
-              });
-              if(localStorage.getItem(`${currentLabID}`)){
-                newTest.currentQuestion = localStorage.getItem(`${currentLabID}`);
-              }else{
-                localStorage.setItem(`${currentLabID}`, 0);
-              }
-              if(localStorage.getItem(("textArea" + currentLabID)) && localStorage.getItem(("textArea" + currentLabID)) !== "//your code here"){
+                if(localStorage.getItem(("textArea" + currentLabID)) && localStorage.getItem(("textArea" + currentLabID)) !== "//your code here"){
                   return localStorage.getItem(("textArea" + currentLabID));
               }else{
                   try{
-                    localStorage.setItem(("textArea" + currentLabID), newTest.returnCurrentQuestion().startingCode);
+                    localStorage.setItem(("textArea" + currentLabID), data.js);
                   }catch{
                     localStorage.setItem(("textArea" + currentLabID), "//your code here");
                   }
                   return localStorage.getItem(("textArea" + currentLabID));
               }
           }
+          displayContents = displayDemo;
+          init(newTest);
+        }else if(data.testQuestionSet){
+            newTest = new Test(data);
+            getInitStartingCode = function(){
+                if(localStorage.getItem(`${currentLabID}`)){
+                  newTest.currentQuestion = localStorage.getItem(`${currentLabID}`);
+                }else{
+                  localStorage.setItem(`${currentLabID}`, 0);
+                }
+                if(localStorage.getItem(("textArea" + currentLabID)) && localStorage.getItem(("textArea" + currentLabID)) !== "//your code here"){
+                    return localStorage.getItem(("textArea" + currentLabID));
+                }else{
+                    try{
+                      localStorage.setItem(("textArea" + currentLabID), newTest.returnCurrentQuestion().startingCode);
+                    }catch{
+                      localStorage.setItem(("textArea" + currentLabID), "//your code here");
+                    }
+                    return localStorage.getItem(("textArea" + currentLabID));
+              }
+          }
+            document.getElementById("btnContainer").style.setProperty("display", "none");
             displayContents = displayTests;
             init(newTest);
           }
@@ -94,7 +95,7 @@ function fetchData(newLabID){
 }
 
 var checkTests = function(){
-  if(window.failedTests.size() === 0){
+  if(window.failedTests.size() === 0 && newTest.type !== ""){
     $(`#test-num-${newTest.currentQuestion}`).addClass("fadeOut");
     logToPage("you passed!");
     if(Number(newTest.currentQuestion) == newTest.testQuestionSet.length-1){
@@ -110,6 +111,7 @@ var checkTests = function(){
 }
 
 function init(data){
+  console.log(data);
     editor = CodeMirror(document.querySelector('#codeEditor'), {
     lineNumbers: true,
     firstLineNumber: 0,
@@ -124,6 +126,15 @@ function init(data){
         extraKeys: {"Ctrl-Q": "toggleComment"},
         scrollbarStyle: "null"
     });
+    document.getElementById("codeEditor").addEventListener("keyup", function(){
+      if(activeContent === "JS"){
+        localStorage.setItem(("textArea" + currentLabID), editor.getValue());
+      }else if(activeContent === "CSS"){
+        localStorage.setItem(("textAreaCSS" + currentLabID), editor.getValue());
+      }else if(activeContent === "HTML"){
+        localStorage.setItem(("textAreaHTML" + currentLabID), editor.getValue());
+      }
+    });
     displayContents(data);
     addRunButtonEventListener(document.getElementById("run"), data);
 }
@@ -134,18 +145,22 @@ function addRunButtonEventListener(element, newTest){
   });
 }
 var runCurrentTest = function(newTest){
-  // if((typeof(newTest.returnCurrentQuestion()) === "undefined" || activeAnimationListener.active > 0)){
-  //   return;
-  // }
-
-  localStorage.setItem(("textArea" + currentLabID), editor.getValue());
-  editor.getDoc().setValue(localStorage.getItem(("textArea" + currentLabID)));  
-  enableLineAnimations = function(){
-    return document.getElementById("lineAnimationCheckbox").checked;
-  }();
+  if(activeAnimationListener.active > 0){
+    return;
+  }
+  if(newTest.type === "demo"){
+    newTest.html = localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html;
+    newTest.css = localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css;
+    document.getElementById("lessonPage").innerHTML = `<section>
+<h1>${newTest.title}</h1>
+<div>${newTest.html}</div>
+<style>${newTest.css}</style>
+</section>`
+  }
+  // editor.getDoc().setValue(localStorage.getItem(("textArea" + currentLabID)));  
+  enableLineAnimations = document.getElementById("lineAnimationCheckbox").checked;
   gutterDelay = document.getElementById("exceSlider").value;
   sandboxMode = document.getElementById("sandboxModeState").checked;
-  editor.value = editor.doc.getValue();
   gutter = undefined;
   gutter = document.getElementsByClassName("CodeMirror-linenumber");
   for(line of gutter){
@@ -177,7 +192,7 @@ var runCurrentTest = function(newTest){
   //**************
   window.failedTests = new Stack(); //very interesting
   try{
-    var injection = generateInjection(newTest);
+    var injection = generateInjection();
   }catch(error){
     window.failedTests.push(error);
     console.log(error);
@@ -203,7 +218,7 @@ var runCurrentTest = function(newTest){
   // Clean up changes to console.log
   //********************************
 }
-function generateInjection(newTest){
+function generateInjection(){
   var newArray = new Array();
   //here, you inject any lines of code you want
   newArray.push(`
@@ -212,7 +227,7 @@ function generateInjection(newTest){
   `);
 
   //begin parsing of code in code editor;
-  var newInjectedCode = breakIntoComponents(editor.getValue()).join("\n");
+  var newInjectedCode = breakIntoComponents(localStorage.getItem("textArea" + currentLabID)).join("\n");
   newArray.push(newInjectedCode);
 
   //push other tests here.
