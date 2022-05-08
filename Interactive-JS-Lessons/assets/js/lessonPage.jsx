@@ -1,18 +1,18 @@
 'use strict';
 var displayContents;
 
-function displayTests (newTest){
+function displayTests (newData){
   var lessonPage = document.getElementById("lessonPage");
   var root = ReactDOM.createRoot(lessonPage);
   var elements = new Array();
   elements.push(function(){
       return (
-        <section><h1>{newTest.title}</h1><p>{newTest.text}</p></section>
+        <section><h1>{newData.title}</h1><p>{newData.text}</p></section>
         );
     }());
 
-  for(let i in newTest.returnQuestionSet()){
-    let newQuestion = newTest.returnQuestionSet()[i];
+  for(let i in newData.returnQuestionSet()){
+    let newQuestion = newData.returnQuestionSet()[i];
     elements.push(function(){
       return (<section id={`test-num-${i}`} className={function(){
         if(Number(i) < localStorage.getItem(`${currentLabID}`)){
@@ -44,8 +44,7 @@ function displayDemo(data){
   var elements = new Array();
   elements.push(function(){
     return (
-      <section>
-        <h1>{data.title}</h1>
+      <section className="reset-this">
         <style dangerouslySetInnerHTML={ { __html: data.css}}></style>
         <div dangerouslySetInnerHTML={ { __html: data.html}}></div>
       </section>

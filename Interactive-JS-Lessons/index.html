@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>backendServer</title>
     <script src="assets/js/jquery.js"></script>
-    
+
     <!-- default bootstrap items -->
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -20,7 +20,7 @@
     <script src="codeMirror/autoformat.js"></script>
     <link rel="stylesheet" href="codeMirror/lib/codemirror.css">
     <link rel="stylesheet" href="css/myCodeEditorTheme.css">
-<!-- 
+    <!-- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.1.0-next-2bf5eba72-20220416/umd/react.production.min.js"></script> -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
@@ -31,234 +31,460 @@
     <script src="assets/js/sandbox.js"></script>
 </head>
 <style>
-body {
-    overflow: hidden;
-    background-color: rgb(61, 61, 61);
-}
-#exceSlider {
-    display: inline;
-    position: relative;
-    top: 4px;
-}
-#run {
-    position: relative;
-    right: 6px;
-    background-color: rgb(2, 97, 212);
-    padding: 10px;
-    border-radius: 3px;
-}
-#run:active {
-    background-color: rgb(31, 131, 253);
-}
-#runButtonContainer {
-    z-index: 0;
-    color: white;
-    position: relative;
-    padding: 10px;
-    background-color: #2e2e2e;
-    /* background-color: #fd0000; */
-    width: 100%;
-}
-#ConsoleContainer {
-    overflow-y: scroll;
-    width: 100%;
-    max-height: 500px;
-    height: 40%;
-}
-.navbar-light{
-    -webkit-box-shadow: 0px 10px 6px -1px #000000; 
-    box-shadow: 0px 0px 10px -1px #000000;
-}
-#navbar{
-    -webkit-box-shadow: 0px 0px 6px -1px #000000; 
-    box-shadow: 0px 0px 6px -1px #000000;
-}
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-section {
-    padding: 30px;
-    white-space: pre-wrap;
-}
-console {
-    display: block;
-    position: relative;
-    width: 100%;
-    padding: 7px;
-    padding-left: 10px;
-    color : rgb(209, 209, 209);
-    font-family:'Courier New', Courier, monospace;
-    font-size: 13px;
-}
-.tock {
-    background-color: rgb(61, 61, 61);
-}
-.tick {
-    background-color: rgb(57, 57, 57);
-}
-.example {
-    font-family:'Courier New', Courier, monospace;
-    padding: 10px;
-    padding-left: 30px;
-    background-color:rgba(54, 54, 54, 0.198);
-    border-radius: 10px;
-}
-.example > p {
-    position: relative;
-    top: 8px;
-}
-.passed {
-    filter: opacity(.3);
-}
-.hide {
-    display: none;
-}
-.fadeOut {
-    filter: opacity(.5);
-    animation-name: fadeOutTest;
-	animation-iteration-count: 1;
-	animation-timing-function: ease-in;
-	animation-duration:200ms;
-    background-color: rgba(0, 153, 255, 0.203);
-}
-@keyframes fadeOutTest {
-	0% {
-        background-color: rgba(0, 0, 0, 0);
-		filter: opacity(1);
-	}
-	100% {
-        background-color: rgba(0, 153, 255, 0.42);
-		filter: opacity(.5);
-	}
-}
-.fadeOutVis {
-    animation-name: fadeOut;
-	animation-iteration-count: 1;
-	animation-duration:200ms;
-}
-.fadeInVis {
-    animation-name: fadeIn;
-	animation-iteration-count: 1;
-	animation-duration:200ms;
-}
-@keyframes fadeOut {
-	0% {
-        background-color: limegreen;
-		filter: opacity(1);
-	}
-	100% {
-        background-color: rgba(0,0,0,0);
-		filter: opacity(0);
-	}
-}
-@keyframes fadeIn {
-	0% {
-        background-color: rgba(0,0,0,0);
-		filter: opacity(0);
-	}
-    30% {
-        background-color: limegreen;
-		filter: opacity(.8);
+    body {
+        overflow: hidden;
+        background-color: rgb(61, 61, 61);
     }
-	100% {
-        background-color: limegreen;
-		filter: opacity(1);
-	}
+
+    #exceSlider {
+        display: inline;
+        position: relative;
+        top: 4px;
+    }
+
+    #run {
+        position: relative;
+        right: 6px;
+        background-color: rgb(2, 97, 212);
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    #run:active {
+        background-color: rgb(31, 131, 253);
+    }
+
+    #runButtonContainer {
+        z-index: 0;
+        color: white;
+        position: relative;
+        padding: 10px;
+        background-color: #2e2e2e;
+        /* background-color: #fd0000; */
+        width: 100%;
+    }
+
+    #ConsoleContainer {
+        overflow-y: scroll;
+        width: 100%;
+        max-height: 500px;
+        height: 40%;
+    }
+
+    .navbar-light {
+        -webkit-box-shadow: 0px 10px 6px -1px #000000;
+        box-shadow: 0px 0px 10px -1px #000000;
+    }
+
+    #navbar {
+        -webkit-box-shadow: 0px 0px 6px -1px #000000;
+        box-shadow: 0px 0px 6px -1px #000000;
+    }
+
+    .noselect {
+        -webkit-touch-callout: none;
+        /* iOS Safari */
+        -webkit-user-select: none;
+        /* Safari */
+        -khtml-user-select: none;
+        /* Konqueror HTML */
+        -moz-user-select: none;
+        /* Old versions of Firefox */
+        -ms-user-select: none;
+        /* Internet Explorer/Edge */
+        user-select: none;
+        /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+    }
+
+    section {
+        padding: 30px;
+        white-space: pre-wrap;
+    }
+
+    console {
+        display: block;
+        position: relative;
+        width: 100%;
+        padding: 7px;
+        padding-left: 10px;
+        color: rgb(209, 209, 209);
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+    }
+
+    .tock {
+        background-color: rgb(61, 61, 61);
+    }
+
+    .tick {
+        background-color: rgb(57, 57, 57);
+    }
+
+    .example {
+        font-family: 'Courier New', Courier, monospace;
+        padding: 10px;
+        padding-left: 30px;
+        background-color: rgba(54, 54, 54, 0.198);
+        border-radius: 10px;
+    }
+
+    .example>p {
+        position: relative;
+        top: 8px;
+    }
+
+    .passed {
+        filter: opacity(.3);
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .fadeOut {
+        filter: opacity(.5);
+        animation-name: fadeOutTest;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
+        animation-duration: 200ms;
+        background-color: rgba(0, 153, 255, 0.203);
+    }
+
+    @keyframes fadeOutTest {
+        0% {
+            background-color: rgba(0, 0, 0, 0);
+            filter: opacity(1);
+        }
+
+        100% {
+            background-color: rgba(0, 153, 255, 0.42);
+            filter: opacity(.5);
+        }
+    }
+
+    .fadeOutVis {
+        animation-name: fadeOut;
+        animation-iteration-count: 1;
+        animation-duration: 200ms;
+    }
+
+    .fadeInVis {
+        animation-name: fadeIn;
+        animation-iteration-count: 1;
+        animation-duration: 200ms;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            background-color: limegreen;
+            filter: opacity(1);
+        }
+
+        100% {
+            background-color: rgba(0, 0, 0, 0);
+            filter: opacity(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        0% {
+            background-color: rgba(0, 0, 0, 0);
+            filter: opacity(0);
+        }
+
+        30% {
+            background-color: limegreen;
+            filter: opacity(.8);
+        }
+
+        100% {
+            background-color: limegreen;
+            filter: opacity(1);
+        }
+    }
+    .reset-this {
+    animation : none;
+    animation-delay : 0;
+    animation-direction : normal;
+    animation-duration : 0;
+    animation-fill-mode : none;
+    animation-iteration-count : 1;
+    animation-name : none;
+    animation-play-state : running;
+    animation-timing-function : ease;
+    backface-visibility : visible;
+    background : 0;
+    background-attachment : scroll;
+    background-clip : border-box;
+    background-color : transparent;
+    background-image : none;
+    background-origin : padding-box;
+    background-position : 0 0;
+    background-position-x : 0;
+    background-position-y : 0;
+    background-repeat : repeat;
+    background-size : auto auto;
+    border : 0;
+    border-style : none;
+    border-width : medium;
+    border-color : inherit;
+    border-bottom : 0;
+    border-bottom-color : inherit;
+    border-bottom-left-radius : 0;
+    border-bottom-right-radius : 0;
+    border-bottom-style : none;
+    border-bottom-width : medium;
+    border-collapse : separate;
+    border-image : none;
+    border-left : 0;
+    border-left-color : inherit;
+    border-left-style : none;
+    border-left-width : medium;
+    border-radius : 0;
+    border-right : 0;
+    border-right-color : inherit;
+    border-right-style : none;
+    border-right-width : medium;
+    border-spacing : 0;
+    border-top : 0;
+    border-top-color : inherit;
+    border-top-left-radius : 0;
+    border-top-right-radius : 0;
+    border-top-style : none;
+    border-top-width : medium;
+    bottom : auto;
+    box-shadow : none;
+    box-sizing : content-box;
+    caption-side : top;
+    clear : none;
+    clip : auto;
+    color : inherit;
+    columns : auto;
+    column-count : auto;
+    column-fill : balance;
+    column-gap : normal;
+    column-rule : medium none currentColor;
+    column-rule-color : currentColor;
+    column-rule-style : none;
+    column-rule-width : none;
+    column-span : 1;
+    column-width : auto;
+    content : normal;
+    counter-increment : none;
+    counter-reset : none;
+    cursor : auto;
+    direction : ltr;
+    display : inline;
+    empty-cells : show;
+    float : none;
+    font : normal;
+    font-family : inherit;
+    font-size : medium;
+    font-style : normal;
+    font-variant : normal;
+    font-weight : normal;
+    height : auto;
+    hyphens : none;
+    left : auto;
+    letter-spacing : normal;
+    line-height : normal;
+    list-style : none;
+    list-style-image : none;
+    list-style-position : outside;
+    list-style-type : disc;
+    margin : 0;
+    margin-bottom : 0;
+    margin-left : 0;
+    margin-right : 0;
+    margin-top : 0;
+    max-height : none;
+    max-width : none;
+    min-height : 0;
+    min-width : 0;
+    opacity : 1;
+    orphans : 0;
+    outline : 0;
+    outline-color : invert;
+    outline-style : none;
+    outline-width : medium;
+    overflow : visible;
+    overflow-x : visible;
+    overflow-y : visible;
+    padding : 0;
+    padding-bottom : 0;
+    padding-left : 0;
+    padding-right : 0;
+    padding-top : 0;
+    page-break-after : auto;
+    page-break-before : auto;
+    page-break-inside : auto;
+    perspective : none;
+    perspective-origin : 50% 50%;
+    position : static;
+    /* May need to alter quotes for different locales (e.g fr) */
+    quotes : '\201C' '\201D' '\2018' '\2019';
+    right : auto;
+    tab-size : 8;
+    table-layout : auto;
+    text-align : inherit;
+    text-align-last : auto;
+    text-decoration : none;
+    text-decoration-color : inherit;
+    text-decoration-line : none;
+    text-decoration-style : solid;
+    text-indent : 0;
+    text-shadow : none;
+    text-transform : none;
+    top : auto;
+    transform : none;
+    transform-style : flat;
+    transition : none;
+    transition-delay : 0s;
+    transition-duration : 0s;
+    transition-property : none;
+    transition-timing-function : ease;
+    unicode-bidi : normal;
+    vertical-align : baseline;
+    visibility : visible;
+    white-space : normal;
+    widows : 0;
+    width : auto;
+    word-spacing : normal;
+    z-index : auto;
+    /* basic modern patch */
+    all: initial;
+    all: unset;
 }
+
 
 </style>
 <script>
 
 </script>
+
 <body class="flex-column">
-    <nav id ="navBar" class="navbar navbar-dark navbar-expand-md" style="background: rgb(61, 61, 61);color: rgb(224,224,224);padding: 15px;">
-        <div class="container-fluid"><a class="navbar-brand" href="#" style="color: rgba(255,255,255,0.9);font-size: 30px;">JS Lessons</a>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="createLesson.html" style="color: rgb(97,161,255);">Create a Lesson</a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                </ul>
-            </div>
-            <input id="searchField" class="form-control-sm" type="search" style="margin-left: 0px; margin-top: 1px; border-radius: 10px; border-style: none;" placeholder="Search ie : 305502808432711">
-            <button id="searchButton" class="btn btn-primary btn-sm" type="button" style="margin-left: 10px;border-radius: 10px;height: 31px;">Search</button>
-            <button data-bs-target="#navcol-1" data-bs-toggle="collapse" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-dark navbar-toggler-icon"></span></button>
+<nav id="navBar" class="navbar navbar-dark navbar-expand-md"
+    style="background: rgb(61, 61, 61);color: rgb(224,224,224);padding: 15px;">
+    <div class="container-fluid"><a class="navbar-brand" href=""
+            style="color: rgba(255,255,255,0.9);font-size: 30px;">JS Lessons</a>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link active" href="?labID=7000032061157016"
+                    style="color: rgb(97,161,255);">Create a Demo</a></li>
+                <li class="nav-item"><a class="nav-link active" href=""
+                        style="color: rgb(97,161,255);">Create a Lesson</a></li>
+            </ul>
         </div>
-    </nav>
+        <input id="searchField" class="form-control-sm" type="search"
+            style="margin-left: 0px; margin-top: 1px; border-radius: 10px; border-style: none;"
+            placeholder="Search ie : 305502808432711">
+        <button id="searchButton" class="btn btn-primary btn-sm" type="button"
+            style="margin-left: 10px;border-radius: 10px;height: 31px;">Search</button>
+        <button data-bs-target="#navcol-1" data-bs-toggle="collapse" class="navbar-toggler"><span
+                class="visually-hidden">Toggle navigation</span><span
+                class="navbar-dark navbar-toggler-icon"></span></button>
+    </div>
+</nav>
     <div class="d-flex" style="flex-direction:row-reverse">
 
-        <div class="heightAdjustment" style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
-            <span id="btnContainer" style="position: relative; top:0;display:none"><button id="loadJS">js</button><button id="loadCSS">css</button><button id="loadHTML">html</button></span>
+        <div class="heightAdjustment"
+            style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
+            <span id="btnContainer" style="position: relative; top:0;display:none; width: 100%;"><button
+                    id="loadJS">js</button><button id="loadCSS">css</button><button id="loadHTML">html</button><button style="float: right;" id="publishDemo">Publish Demo</button></span>
             <script>
-                document.getElementById("loadJS").addEventListener("click", function(){
+                document.getElementById("loadJS").addEventListener("click", function () {
                     activeContent = "JS";
                     editor.setValue(localStorage.getItem("textArea" + currentLabID));
                 });
-                document.getElementById("loadCSS").addEventListener("click", function(){
+                document.getElementById("loadCSS").addEventListener("click", function () {
                     activeContent = "CSS";
-                    editor.setValue(localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css);
+                    editor.setValue(localStorage.getItem("textAreaCSS" + currentLabID) || newData.css);
                 });
-                document.getElementById("loadHTML").addEventListener("click", function(){
+                document.getElementById("loadHTML").addEventListener("click", function () {
                     activeContent = "HTML";
-                    editor.setValue(localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html);
+                    editor.setValue(localStorage.getItem("textAreaHTML" + currentLabID) || newData.html);
+                });
+                document.getElementById("publishDemo").addEventListener("click", function () {
+                    if (checkForIllegalKW(localStorage.getItem("textAreaHTML" + currentLabID) || newData.html) 
+                    || checkForIllegalKW(localStorage.getItem("textAreaCSS" + currentLabID) || newData.css)
+                    || checkForIllegalKW(localStorage.getItem("textArea" + currentLabID) || newData.js)) {
+                    return;
+                }
+                    if(newData.type === "demo"){
+                        var newPost = {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                type : "demo",
+                                html : localStorage.getItem("textAreaHTML" + currentLabID) || newData.html,
+                                js : localStorage.getItem("textArea" + currentLabID) || newData.js,
+                                css : localStorage.getItem("textAreaCSS" + currentLabID) || newData.css,
+                                currentQuestion: 0,
+                                testQuestionSet: [],
+                            })
+                        }
+                        fetch('http://137.184.237.82:3000/postLab', newPost).then((response) => response.json()).then((data) => {
+                            window.location.href = "?labID=" + data.URL;
+                        });
+                    }
                 });
             </script>
             <div id="codeEditor" style="width: 100%;"></div>
             <div id="runButtonContainer" class="noselect">
                 <span id="run">Run Code</span>
-                <span style="float: right;">
-                    <input id="lineAnimationCheckbox" type="checkbox" style="position: relative; top:1px;">
-                    <p id="timingLabel" style="display: inline-block;font-size: 10px;"></p>
-                    <input id="exceSlider" type="range" min="40" max="1000" value="100" step="20">
-                    <script>
-                        document.getElementById("lineAnimationCheckbox").addEventListener("input", function(){
-                            if(this.checked === true){
-                                alert(`disable this feature first if you encounter weird errors.\nIf line numbers don't match up with execution, reload the page. It is an issue with a library used.`);
-                            }
-                        });
-                        gutterDelay = document.getElementById("exceSlider").value;
-                        document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay/1000).toLocaleString("en",{useGrouping: false,minimumFractionDigits: 2}) + "s ";
-                        document.getElementById("exceSlider").addEventListener("input", function(e){
-                            if(activeAnimationListener.active === 0){
-                                gutterDelay = this.value;
-                                document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay/1000).toLocaleString("en",{useGrouping: false,minimumFractionDigits: 2}) + "s ";
-                            }
-                        });
-                    </script>
-                </span>
-                <span style="float: right;margin-right: 10px;">
-                    <input id="sandboxModeState" type="checkbox" style="position: relative; top:1px;">
-                    <p style="display: inline-block;font-size: 10px;">SandboxMode</p>
-                    <script>
-                        document.getElementById("sandboxModeState").addEventListener("input", function(){
-                            if(this.checked === true){
-                                alert(`1. Testing in this mode will be deactivated \n2. You will have complete freedom of javascript in the editor*`);
-                            }
-                            switch(this.checked){
-                                case true: $("#lineAnimationCheckbox")[0].disabled = true; break;
-                                case false: $("#lineAnimationCheckbox")[0].disabled = false; break;
-                            }
-                        });
-                    </script>
-                </span>
+                <div style="position:relative;display: inline-block; float: right; width: 263px;">
+                    <span style="float: right;">
+                        <input id="lineAnimationCheckbox" type="checkbox" style="position: relative; top:1px;">
+                        <p id="timingLabel" style="display: inline-block;font-size: 10px;"></p>
+                        <input id="exceSlider" type="range" min="40" max="1000" value="100" step="20" style="width: 75px;">
+                        <script>
+                            document.getElementById("lineAnimationCheckbox").addEventListener("input", function () {
+                                if (this.checked === true) {
+                                    alert(`disable this feature first if you encounter weird errors.\nIf line numbers don't match up with execution, reload the page. It is an issue with a library used.`);
+                                }
+                            });
+                            gutterDelay = document.getElementById("exceSlider").value;
+                            document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay / 1000).toLocaleString("en", { useGrouping: false, minimumFractionDigits: 2 }) + "s ";
+                            document.getElementById("exceSlider").addEventListener("input", function (e) {
+                                if (activeAnimationListener.active === 0) {
+                                    gutterDelay = this.value;
+                                    document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay / 1000).toLocaleString("en", { useGrouping: false, minimumFractionDigits: 2 }) + "s ";
+                                }
+                            });
+                        </script>
+                    </span>
+                    <span style="float: right;margin-right: 10px;">
+                        <input id="sandboxModeState" type="checkbox" style="position: relative; top:1px;">
+                        <p style="display: inline-block;font-size: 10px;">SandboxMode</p>
+                        <script>
+                            document.getElementById("sandboxModeState").addEventListener("input", function () {
+                                if (this.checked === true) {
+                                    alert(`1. Testing in this mode will be deactivated \n2. You will have complete freedom of javascript in the editor*`);
+                                }
+                                switch (this.checked) {
+                                    case true: $("#lineAnimationCheckbox")[0].disabled = true; break;
+                                    case false: $("#lineAnimationCheckbox")[0].disabled = false; break;
+                                }
+                            });
+                        </script>
+                    </span>
+                </div>
             </div>
             <div id="ConsoleContainer"></div>
         </div>
 
-        <div id="lessonPage" class="heightAdjustment" style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
+        <div id="lessonPage" class="heightAdjustment"
+            style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
     </div>
-<!-- react scripts -->
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- react scripts -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-<script type="text/babel" src="assets/js/lessonPage.jsx"></script>
-<script src="assets/js/helpers.js"></script>
+    <script type="text/babel" src="assets/js/lessonPage.jsx"></script>
+    <script src="assets/js/helpers.js"></script>
 </body>
 
 </html>

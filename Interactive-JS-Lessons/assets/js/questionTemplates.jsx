@@ -1,23 +1,23 @@
 `use strict`//yeah okay
 var functionTestArray = [];
-function createNewFNtab(name){
-  if(!name){
+function createNewFNtab(name) {
+  if (!name) {
     return;
   }
-  let click = function(e){
+  let click = function (e) {
     activeFunctiontestTab = e.currentTarget.id;
     setActiveFunctionsTab(activeFunctiontestTab);
-    editor.getDoc().setValue(function(){
+    editor.getDoc().setValue(function () {
       return functionMaps.get(activeFunctiontestTab);
     }());
   }
   let fnTabsContainer = document.getElementById("tabsContainer");
   let root = ReactDOM.createRoot(fnTabsContainer);
   let number = document.getElementsByClassName("functionTestTab").length;
-  let id = "fnest-"+number;
-  activeFunctiontestTab = "fnest-"+(number+1);
-  let element = function(){
-    if(number === 0){
+  let id = "fnest-" + number;
+  activeFunctiontestTab = "fnest-" + (number + 1);
+  let element = function () {
+    if (number === 0) {
       return (<div id={id} onClick={click} class="functionTestTab left">{name}</div>);
     }
     return (<div id={id} onClick={click} class="functionTestTab">{name}</div>);

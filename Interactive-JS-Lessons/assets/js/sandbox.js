@@ -1,6 +1,6 @@
 var newClock = new Clock();
 var editor;
-var newTest;
+var newData;
 var gutter;
 var getInitStartingCode;
 var activeContent = "JS";
@@ -19,7 +19,7 @@ var activeAnimationListener = {
   }
 }
 activeAnimationListener.registerListener(function (val) {
-  if (val === 0 && newTest.type !== "demo") {
+  if (val === 0 && newData.type !== "demo") {
     checkTests();
     gutterDelay = document.getElementById("exceSlider").value;
     document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay / 1000).toLocaleString("en", { useGrouping: false, minimumFractionDigits: 2 }) + "s ";
@@ -51,9 +51,9 @@ function fetchData(newLabID) {
     else {
       if (data.type === "demo") {
         $("#btnContainer").css("display", "inline");
-        newTest = new Test(data);
-        newTest.html = localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html;
-        newTest.css = localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css;
+        newData = new Data(data);
+        newData.html = localStorage.getItem("textAreaHTML" + currentLabID) || newData.html;
+        newData.css = localStorage.getItem("textAreaCSS" + currentLabID) || newData.css;
         getInitStartingCode = function () {
           if (localStorage.getItem(("textArea" + currentLabID)) && localStorage.getItem(("textArea" + currentLabID)) !== "//your code here") {
             return localStorage.getItem(("textArea" + currentLabID));
@@ -70,12 +70,12 @@ function fetchData(newLabID) {
         $("#sandboxModeState").prop("disabled", true);
         $("#lineAnimationCheckbox").prop("disabled", true);
         displayContents = displayDemo;
-        init(newTest);
+        init(newData);
       } else if (data.testQuestionSet) {
-        newTest = new Test(data);
+        newData = new Data(data);
         getInitStartingCode = function () {
           if (localStorage.getItem(`${currentLabID}`)) {
-            newTest.currentQuestion = localStorage.getItem(`${currentLabID}`);
+            newData.currentQuestion = localStorage.getItem(`${currentLabID}`);
           } else {
             localStorage.setItem(`${currentLabID}`, 0);
           }
@@ -83,7 +83,7 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           } else {
             try {
-              localStorage.setItem(("textArea" + currentLabID), newTest.returnCurrentQuestion().startingCode);
+              localStorage.setItem(("textArea" + currentLabID), newData.returnCurrentQuestion().startingCode);
             } catch {
               localStorage.setItem(("textArea" + currentLabID), "//your code here");
             }
@@ -91,20 +91,20 @@ function fetchData(newLabID) {
           }
         }
         displayContents = displayTests;
-        init(newTest);
+        init(newData);
       }
     }
   });
 }
 
 var checkTests = function () {
-  if (window.failedTests.size() === 0 && newTest.type !== "") {
-    $(`#test-num-${newTest.currentQuestion}`).addClass("fadeOut");
+  if (window.failedTests.size() === 0 && newData.type !== "") {
+    $(`#test-num-${newData.currentQuestion}`).addClass("fadeOut");
     logToPage("you passed!");
-    if (Number(newTest.currentQuestion) == newTest.testQuestionSet.length - 1) {
+    if (Number(newData.currentQuestion) == newData.testQuestionSet.length - 1) {
       logToPage("Congrats on getting to the end!");
     }
-    newTest.nextQuestion();
+    newData.nextQuestion();
   } else {
     logToPage("you failed!");
     while (window.failedTests.size() > 0) {
@@ -142,22 +142,33 @@ function init(data) {
   addRunButtonEventListener(document.getElementById("run"), data);
 }
 
-function addRunButtonEventListener(element, newTest) {
+function addRunButtonEventListener(element, newData) {
   element.addEventListener("click", function () {
-    runCurrentTest(newTest);
+    runCurrentTest(newData);
   });
 }
-var runCurrentTest = function (newTest) {
+window.logToPage = function () {
+  var args = [...arguments];
+  for (arg of args) {
+    $("#ConsoleContainer").append($(`<console class="${newClock.getTick()}">> ${arg} </console>`));
+  }
+  var element = document.getElementById("ConsoleContainer");
+  element.scrollTop = element.scrollHeight;
+};
+
+var runCurrentTest = function (newData) {
   if (activeAnimationListener.active > 0) {
     return;
   }
-  if (newTest.type === "demo") {
-    newTest.html = localStorage.getItem("textAreaHTML" + currentLabID) || newTest.html;
-    newTest.css = localStorage.getItem("textAreaCSS" + currentLabID) || newTest.css;
-    document.getElementById("lessonPage").innerHTML = `<section>
-<h1>${newTest.title}</h1>
-<div>${newTest.html}</div>
-<style>${newTest.css}</style>
+  if (newData.type === "demo") {
+    newData.html = localStorage.getItem("textAreaHTML" + currentLabID) || newData.html;
+    newData.css = localStorage.getItem("textAreaCSS" + currentLabID) || newData.css;
+    if (checkForIllegalKW(newData.html) || checkForIllegalKW(newData.css)) {
+      return;
+    }
+    document.getElementById("lessonPage").innerHTML = `<section class="reset-this">
+<div>${newData.html}</div>
+<style>${newData.css}</style>
 </section>`
   }
   // editor.getDoc().setValue(localStorage.getItem(("textArea" + currentLabID)));  
@@ -175,15 +186,6 @@ var runCurrentTest = function (newTest) {
   //******************
   //hijack console.log
   //******************
-
-  window.logToPage = function () {
-    var args = [...arguments];
-    for (arg of args) {
-      $("#ConsoleContainer").append($(`<console class="${newClock.getTick()}">> ${arg} </console>`));
-    }
-    var element = document.getElementById("ConsoleContainer");
-    element.scrollTop = element.scrollHeight;
-  };
 
   storedLogs = [];
   window.storeLogs = function () {
@@ -213,7 +215,7 @@ var runCurrentTest = function (newTest) {
 
   //Very important, because eval treats the frame it was called in as its code's global frame from here we can access the user's global variables and functions
   //So any testing we'd want to do on a user's functions and variables will happen here
-  if (!enableLineAnimations && !sandboxMode && newTest.type !== "demo") {
+  if (!enableLineAnimations && !sandboxMode && newData.type !== "demo") {
     checkTests();
   }
   //********************************
@@ -234,11 +236,11 @@ function generateInjection() {
 
   //push other tests here.
   newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
-  if (newTest.type !== "demo") {
+  if (newData.type !== "demo") {
     newArray.push("(()=>{");
-    newArray.push(makeConsoleTester(newTest.returnCurrentQuestion().logs));
-    newArray.push(makeVariableTester(newTest.returnCurrentQuestion().vars));
-    newArray.push(makeFunctionTester(newTest.returnCurrentQuestion().functs));
+    newArray.push(makeConsoleTester(newData.returnCurrentQuestion().logs));
+    newArray.push(makeVariableTester(newData.returnCurrentQuestion().vars));
+    newArray.push(makeFunctionTester(newData.returnCurrentQuestion().functs));
     newArray.push("})()");
   }
   newArray.push(` 

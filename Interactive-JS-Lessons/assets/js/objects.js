@@ -1,4 +1,4 @@
-class Test{
+class Data {
   title;
   text;
   html;
@@ -6,7 +6,7 @@ class Test{
   js;
   testQuestionSet;
   currentQuestion;
-  constructor(data){
+  constructor(data) {
     this.js = data.js;
     this.html = data.html;
     this.css = data.css;
@@ -15,46 +15,46 @@ class Test{
     this.text = data.text;
     this.testQuestionSet = new Array();
     this.currentQuestion = 0;
-    if(data){
-      for(var i = 0; i < data.testQuestionSet.length; i++){
+    if (data) {
+      for (var i = 0; i < data.testQuestionSet.length; i++) {
         var newQuestion = new Question(data.testQuestionSet[i]);
         this.addQuestion(newQuestion);
       }
     }
   }
   //add question setters and getters
-  addQuestion(newQuestion){
+  addQuestion(newQuestion) {
     this.testQuestionSet.push(newQuestion);
   }
-  nextQuestion(){
+  nextQuestion() {
     this.currentQuestion++;
-    try{
-      if(this.testQuestionSet[this.currentQuestion].startingCode !== "keep previous" ||  undefined){
-        editor.getDoc().setValue(this.testQuestionSet[this.currentQuestion].startingCode);  
-    }
-    }catch(error){
+    try {
+      if (this.testQuestionSet[this.currentQuestion].startingCode !== "keep previous" || undefined) {
+        editor.getDoc().setValue(this.testQuestionSet[this.currentQuestion].startingCode);
+      }
+    } catch (error) {
       console.log(error);
     }
     localStorage.setItem(("textArea" + currentLabID), editor.getValue());
-    localStorage.setItem(`${currentLabID}`, newTest.currentQuestion);
-    if(this.currentQuestion > this.testQuestionSet.length){
-      localStorage.setItem(`${currentLabID}`, this.testQuestionSet.length+1);
+    localStorage.setItem(`${currentLabID}`, newData.currentQuestion);
+    if (this.currentQuestion > this.testQuestionSet.length) {
+      localStorage.setItem(`${currentLabID}`, this.testQuestionSet.length + 1);
     }
-    if(this.currentQuestion >= this.testQuestionSet.length){
-      this.currentQuestion = this.testQuestionSet.length-1;
+    if (this.currentQuestion >= this.testQuestionSet.length) {
+      this.currentQuestion = this.testQuestionSet.length - 1;
     }
   }
-  returnCurrentQuestion(){
-    if(this.currentQuestion >= this.testQuestionSet.length){
-      this.currentQuestion = this.testQuestionSet.length-1;
+  returnCurrentQuestion() {
+    if (this.currentQuestion >= this.testQuestionSet.length) {
+      this.currentQuestion = this.testQuestionSet.length - 1;
     }
     return this.testQuestionSet[this.currentQuestion];
   }
-  returnQuestionSet(){
+  returnQuestionSet() {
     return this.testQuestionSet;
   }
 }
-class Question{
+class Question {
   number;
   title;
   text; //Question - a string
@@ -65,7 +65,7 @@ class Question{
   stringsTests;//stack of strings
   //we got three types of questions so far, asking for console.logs; asking to create variables with specific values, function name and expected inputs/outputs
   startingCode;
-  constructor(data){
+  constructor(data) {
     this.number = data.number || "";
     this.text = data.text || "";
     this.logs = data.logs || [];
@@ -76,102 +76,102 @@ class Question{
     this.example = data.example || "";
     this.startingCode = data.startingCode || "//your code here";
   }
-  returnText(){
+  returnText() {
     return this.text;
   }
-  returnConsoleTests(){
+  returnConsoleTests() {
     return this.logs;
   }
-  returnVariableTests(){
+  returnVariableTests() {
     return this.vars;
   }
-  returnFunctionTests(){
+  returnFunctionTests() {
     return this.functs;
   }
-  addConsoleRequirements(testCase){ //could be a number or string. 
+  addConsoleRequirements(testCase) { //could be a number or string. 
     this.logs.push(testCase);
   }
-  addVariableRequirements(newVariableTest){
-    this.vars.push({name: newVariableTest.name, val: newVariableTest.val, path: newVariableTest.scopeName});
+  addVariableRequirements(newVariableTest) {
+    this.vars.push({ name: newVariableTest.name, val: newVariableTest.val, path: newVariableTest.scopeName });
   }
-  addFunctionRequirements(newFunctionTest){ //string, array[{input = "", output = ""}, ..]
-    this.functs.push({name: newFunctionTest.name, tests : newFunctionTest.tests});
+  addFunctionRequirements(newFunctionTest) { //string, array[{input = "", output = ""}, ..]
+    this.functs.push({ name: newFunctionTest.name, tests: newFunctionTest.tests });
   }
-  
+
 }
-class variableTest{
+class variableTest {
   type; //eg var, let, or... am i missing anything? *currently not used.
   name; //name
   val; //value. strings allowed
   scopeName;
-  constructor(name, value, scopeName){
+  constructor(name, value, scopeName) {
     this.name = name;
     this.val = value;
     this.scopeName = scopeName;
   }
 }
-class functionTest{
+class functionTest {
   name; //function name without the parenthesis
   tests; //
   functionDefinition;
-  constructor(name){
+  constructor(name) {
     this.name = name;
     this.tests = new Array();
     this.functionDefinition = "";
   }
-  addTest(testInput, expectedOutput){ //testInput = "<string>" ie: "3", 
-    this.tests.push({input: testInput, output : expectedOutput});
+  addTest(testInput, expectedOutput) { //testInput = "<string>" ie: "3", 
+    this.tests.push({ input: testInput, output: expectedOutput });
   }
 }
 
 //frame objects
-function returnFrameContainingVariable(newFrame, variableName){
+function returnFrameContainingVariable(newFrame, variableName) {
   while (!newFrame.variables.has(variableName) && typeof (newFrame.previousFrame) !== "undefined") {
     newFrame = newFrame.previousFrame;
   }
   return newFrame;
 }
-function returnFrameContainingFunctionDEF(newFrame, functionName){
+function returnFrameContainingFunctionDEF(newFrame, functionName) {
   while (!newFrame.declaredFunctions.has(functionName) && typeof (newFrame.previousFrame) !== "undefined") {
     newFrame = newFrame.previousFrame;
   }
   return newFrame;
 }
-function searchFramesForFunctionDef(functionName, startingFrame){
-  if(startingFrame.declaredFunctions.get(functionName)){
+function searchFramesForFunctionDef(functionName, startingFrame) {
+  if (startingFrame.declaredFunctions.get(functionName)) {
     return startingFrame.declaredFunctions.get(functionName);
   }
-  for(child of startingFrame.childrenFrame){ //If we didn't find it in this frame, check all its children recursively
-    if(searchFramesForFunctionDef(functionName, child)){
+  for (child of startingFrame.childrenFrame) { //If we didn't find it in this frame, check all its children recursively
+    if (searchFramesForFunctionDef(functionName, child)) {
       return child;
     }
   }
   return startingFrame.returnDefaultFrame();
 }
-function searchFramesForVariable(variableName, value, type, startingFrame, frameName){
-  if(
+function searchFramesForVariable(variableName, value, type, startingFrame, frameName) {
+  if (
     startingFrame.variables.get(variableName) && //we need to check if the variable exists (otherwise the next check will error)
     startingFrame.variables.get(variableName).value === value &&
     startingFrame.variables.get(variableName).type === type && //if it does exist we need to check that the values matches
     frameName === startingFrame.name
-    )  // and we need to check if the frameNames match
-    {
+  )  // and we need to check if the frameNames match
+  {
     return true;
   }
-  for(child of startingFrame.childrenFrame){ //If we didn't find it in this frame, check all its children recursively
-    if(searchFramesForVariable(variableName, value, type, child, frameName)){
+  for (child of startingFrame.childrenFrame) { //If we didn't find it in this frame, check all its children recursively
+    if (searchFramesForVariable(variableName, value, type, child, frameName)) {
       return true;
     }
   }
   return false;
 }
-function searchFramesForConsoleLogging(consoleString, frameName, startingFrame){
-  if(startingFrame.searchInConsoleLog(consoleString) && startingFrame.name === frameName){
+function searchFramesForConsoleLogging(consoleString, frameName, startingFrame) {
+  if (startingFrame.searchInConsoleLog(consoleString) && startingFrame.name === frameName) {
     startingFrame.consoleLogs[startingFrame.consoleLogs.indexOf(consoleString)] = null;
     return true;
   }
-  for(child of startingFrame.childrenFrame){
-    if(searchFramesForConsoleLogging(consoleString, frameName, child)){
+  for (child of startingFrame.childrenFrame) {
+    if (searchFramesForConsoleLogging(consoleString, frameName, child)) {
       return true;
     }
   }
@@ -188,18 +188,18 @@ class Frame { //SHOULD PROBABLY ABSTRACT
   childrenFrame; //2 => however, a function that gets called gets its scope attacted to the block or function it was declared inside. so that means a block frame can function scopes as a child frame
   blockFrames;
   counter;
-  constructor(currentFrame, newName, type){
+  constructor(currentFrame, newName, type) {
     this.variables = new Map();
     this.childrenFrame = new Array();
     this.blockFrames = new Array();
     this.declaredFunctions = new Map(); //{functionName, [reference to declaration]}
     this.consoleLogs = new Array(); //(expression), results
-    if(typeof(newName) === "undefined"){
+    if (typeof (newName) === "undefined") {
       this.name = "default";
       this.type = "scoped";
       this.counter = frameCounter = 0;
       frameCounter++;
-    }else if(type === "blocked"){
+    } else if (type === "blocked") {
       this.name = newName;
       this.type = type;
       this.counter = frameCounter;
@@ -207,7 +207,7 @@ class Frame { //SHOULD PROBABLY ABSTRACT
       this.previousFrame = currentFrame;
       currentFrame.childrenFrame.push(this);
     }
-    else{
+    else {
       this.counter = frameCounter;
       frameCounter++;
       this.name = newName;
@@ -217,30 +217,30 @@ class Frame { //SHOULD PROBABLY ABSTRACT
       this.previousFrame = currentFrame;
     }
   }
-  searchInConsoleLog(searchString){
-    for(let i = 0; i < this.consoleLogs.length; i++){
-      if(this.consoleLogs[i] == searchString){
+  searchInConsoleLog(searchString) {
+    for (let i = 0; i < this.consoleLogs.length; i++) {
+      if (this.consoleLogs[i] == searchString) {
         return true;
       }
     }
     return false;
   }
-  returnDefaultFrame(){
+  returnDefaultFrame() {
     var newFrame = this;
-    while(typeof(newFrame.previousFrame) !== "undefined"){
+    while (typeof (newFrame.previousFrame) !== "undefined") {
       newFrame = newFrame.previousFrame;
     }
     return newFrame;
   }
-  returnParentFrame(){
-    if(typeof(this.previousFrame) === "undefined"){
+  returnParentFrame() {
+    if (typeof (this.previousFrame) === "undefined") {
       return this;
     }
-    if(this.type === "blocked"){
+    if (this.type === "blocked") {
       var newFrame = this;
-      while(newFrame.type === "blocked"){
+      while (newFrame.type === "blocked") {
         newFrame = newFrame.previousFrame;
-        if(newFrame.name === "default"){
+        if (newFrame.name === "default") {
           return newFrame;
         }
       }
@@ -248,53 +248,53 @@ class Frame { //SHOULD PROBABLY ABSTRACT
     }
     return this.previousFrame;
   }
-  returnPreviousFunctionScope(){
+  returnPreviousFunctionScope() {
     let newFrame = this;
-    while(newFrame.type === "blocked" && typeof(newFrame.previousFrame) !== "undefined"){
+    while (newFrame.type === "blocked" && typeof (newFrame.previousFrame) !== "undefined") {
       newFrame = newFrame.previousFrame;
     }
     return newFrame;
   }
-  addVariable(type, name, value){
-    if(type === "window"){
+  addVariable(type, name, value) {
+    if (type === "window") {
       name = name.split(".")[1].trim();
       this.returnDefaultFrame().variables.set(name, new Variable("default", name, value));
     }
-    if(type === "var"){
+    if (type === "var") {
       var newFrame = this;
-      while(newFrame.type === "blocked"){
+      while (newFrame.type === "blocked") {
         newFrame = newFrame.previousFrame;
       }
       newFrame.variables.set(name, new Variable(type, name, value));
-    }else if(type === "const" || type === "let" || type === "default"){
+    } else if (type === "const" || type === "let" || type === "default") {
       this.variables.set(name, new Variable(type, name, value));
     }
   }
-  addConsoleLogs(results){
+  addConsoleLogs(results) {
     this.consoleLogs.push(results)
   }
-  updateVariable(name, value){
+  updateVariable(name, value) {
     var newFrame = returnFrameContainingVariable(this, name);
     //logdup(newFrame.name + " contains " + name);
-    if(newFrame.variables.has(name)){
+    if (newFrame.variables.has(name)) {
       var newVariable = newFrame.variables.get(name);
       newVariable.value = value;
       newFrame.variables.set(name, newVariable)
-    }else{
+    } else {
       newFrame.addVariable("default", name, value);
     }
   }
-  findVariable(variableName, scope){
+  findVariable(variableName, scope) {
     return this.variables.get(variableName);
   }
 
 }
 
-class Variable{
+class Variable {
   type; //lets, or vars
   name; //variable name
   value; //value
-  constructor(type, name, value){
+  constructor(type, name, value) {
     this.type = type;
     this.name = name;
     this.value = value;
@@ -304,71 +304,71 @@ class Variable{
 class Stack {
   top;
   newStack;
-  constructor(data){
-    if(data){
+  constructor(data) {
+    if (data) {
       this.newStack = data;
-      this.top = this.newStack.length-1;
-    }else{
+      this.top = this.newStack.length - 1;
+    } else {
       this.newStack = [];
       this.top = -1;
     }
   }
-  push(data){
+  push(data) {
     this.top++;
     this.newStack[this.top] = data;
   }
-  pop(index){
-    if(index === 0 || index){ 
-        do{
-          this.newStack[index] = this.newStack[index+1];
-          index++;
-        }while(index <= this.top)
-    }else{
+  pop(index) {
+    if (index === 0 || index) {
+      do {
+        this.newStack[index] = this.newStack[index + 1];
+        index++;
+      } while (index <= this.top)
+    } else {
       var newData = this.newStack[this.top];
       this.newStack[this.top] = null;
     }
     this.top--;
 
-    if(this.top < -1){ //prevent the marker from going out of bounds/overflow
+    if (this.top < -1) { //prevent the marker from going out of bounds/overflow
       this.top = -1;
     }
     return newData;
   }
-  peek(){
+  peek() {
     return this.newStack[this.top];
   }
-  size(){
+  size() {
     return this.top + 1;
   }
-  getIndexOfandPop(string){
-    if(this.top < 0){
+  getIndexOfandPop(string) {
+    if (this.top < 0) {
       return;
     }
-    let index = function(newStack, top, string){
-      for(let i = 0; i <= top; i++){
-        if(cleanString(newStack[i]) == cleanString(string)){
+    let index = function (newStack, top, string) {
+      for (let i = 0; i <= top; i++) {
+        if (cleanString(newStack[i]) == cleanString(string)) {
           return i;
         }
       }
       return -1;
     }(this.newStack, this.top, string);
-    if(index === -1){
+    if (index === -1) {
       return undefined;
     }
-   this.pop(index);
+    this.pop(index);
   }
 }
 //others
-class Clock{
+class Clock {
   tick;
-  constructor(){
-      this.tick = "tock";
+  constructor() {
+    this.tick = "tock";
   }
-  getTick(){
-      switch(this.tick){
-          case "tick" : this.tick = "tock"; break;
-          case "tock" : this.tick = "tick"; break;
-      }
-      return this.tick;
+  getTick() {
+    switch (this.tick) {
+      case "tick": this.tick = "tock"; break;
+      case "tock": this.tick = "tick"; break;
+    }
+    return this.tick;
   }
 }

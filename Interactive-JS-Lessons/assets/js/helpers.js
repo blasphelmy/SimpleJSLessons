@@ -1,4 +1,4 @@
-window.onload = function(){
+window.onload = function () {
     var element = document.getElementsByClassName("heightAdjustment");
     var elementOffSetter = document.getElementById("navBar");
     fillVerticalHeight(element, elementOffSetter.offsetHeight);
@@ -7,17 +7,17 @@ window.onload = function(){
     elementOffSetter = document.getElementById("ConsoleContainer");
     var y = document.getElementById("runButtonContainer").offsetHeight;
     fillVerticalHeight(element, elementOffSetter.offsetHeight + x + y);
-    document.getElementById("searchButton").addEventListener("click", function(){
+    document.getElementById("searchButton").addEventListener("click", function () {
         var newLabID = document.getElementById("searchField").value;
-        if(window.location.href.match("simplejsclasses")){
+        if (window.location.href.match("simplejsclasses")) {
             window.location.href = "/Interactive-JS-Lessons/?labID=" + newLabID;
-        }else{
+        } else {
             window.location.href = "?labID=" + newLabID;
         }
     });
     fetchData();
 }
-window.onresize = function(){
+window.onresize = function () {
     var element = document.getElementsByClassName("heightAdjustment");
     var elementOffSetter = document.getElementById("navBar");
     fillVerticalHeight(element, elementOffSetter.offsetHeight);
@@ -27,12 +27,12 @@ window.onresize = function(){
     var y = document.getElementById("runButtonContainer").offsetHeight;
     fillVerticalHeight(element, elementOffSetter.offsetHeight + x + y);
 }
-function fillVerticalHeight(targetElement, offsetHeight){
-    if(targetElement.length > 0){
-        for(var i = 0; i < targetElement.length; i++){
+function fillVerticalHeight(targetElement, offsetHeight) {
+    if (targetElement.length > 0) {
+        for (var i = 0; i < targetElement.length; i++) {
             targetElement[i].style.height = (window.innerHeight - offsetHeight) + "px";
         }
-    }else{
+    } else {
         targetElement.style.height = (window.innerHeight - offsetHeight) + "px";
     }
 }
