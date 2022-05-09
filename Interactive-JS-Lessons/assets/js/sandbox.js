@@ -83,7 +83,18 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           } else {
             try {
-              localStorage.setItem(("textArea" + currentLabID), newData.returnCurrentQuestion().startingCode);
+              localStorage.setItem(("textArea" + currentLabID), function(){
+                if(newData.returnCurrentQuestion().startingCode === "keep previous"){
+                  let currentQuestion = newData.currentQuestion;
+                  let startingCode = newData.testQuestionSet[currentQuestion--].startingCode;
+                  while(startingCode === "keep previous"){
+                    startingCode = newData.testQuestionSet[currentQuestion--].startingCode;
+                  }
+                  return startingCode;
+                }else{
+                  return newData.returnCurrentQuestion().startingCode;
+                }
+              }());
             } catch {
               localStorage.setItem(("textArea" + currentLabID), "//your code here");
             }
@@ -231,6 +242,7 @@ function generateInjection() {
   `);
 
   //begin parsing of code in code editor;
+  console.log(localStorage.getItem("textArea" + currentLabID));
   var newInjectedCode = breakIntoComponents(localStorage.getItem("textArea" + currentLabID)).join("\n");
   newArray.push(newInjectedCode);
 

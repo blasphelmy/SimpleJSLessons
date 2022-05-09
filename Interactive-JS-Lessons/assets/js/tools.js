@@ -385,7 +385,8 @@ var injectHelpers = function (array, start) {
       }
       else if (newStack.peek() === "blockscope") {
         if (enableLineAnimations === true) {
-          var hash = array[i + 1].split(/\/\//)[1].split(/[=]/)[1];
+          console.log(array[i+1]);
+          var hash = array[i].split(/\/\//)[1].split(/[=]/)[1];
           newArray.push(`visualizeLineNumbers(${hash});`);
         }
         newArray.push('currentFrame = currentFrame.previousFrame;');
@@ -423,7 +424,7 @@ var injectHelpers = function (array, start) {
         newStack.push("{");
       } else {
         if (enableLineAnimations === true) {
-          var hash = array[i + 1].split(/\/\//)[1].split(/[=]/)[1];
+          var hash = array[i].split(/\/\//)[1].split(/[=]/)[1];
           newArray.push(`visualizeLineNumbers(${hash});`);
         }
         newArray.push(array[i]);
