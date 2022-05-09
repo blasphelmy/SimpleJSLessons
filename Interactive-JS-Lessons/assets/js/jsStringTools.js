@@ -115,7 +115,7 @@ function commentsCleanse(array) {
 function splitByBrackets(inputString) {
   var outputArray = new Array();
   for (var x = 0; x < inputString.length; x++) {
-    var temp = inputString[x].split(/({})(?=(?:[^"]|"[^"]*")*$)/);
+    var temp = inputString[x].split(/([{}])(?=(?:[^"|`|']|"[^"]*")*$)/g);
     for (var index = 0; index < temp.length; index++) {
       outputArray.push(temp[index]);
     }
