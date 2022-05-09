@@ -80,23 +80,23 @@ function checkForIllegalKW(string) {
 }
 function breakIntoComponents(inputString) {
   inputString = inputString.split("\n");
-  inputString = commentsCleanse(inputString);
-  if (checkForIllegalKW(inputString.join("\n"))) {
-    return;
-  }
-  let newSeed = Math.random() * 17;
-  for (let i in inputString) {
-    let newHash = hash(i + newSeed + "");
-    inputString[i] = cleanString(inputString[i]) + "//lineNumber=" + newHash;
-    lineNumberMap.set(newHash, Number(i));
-  }
-  inputString = trimStringInArray(inputString);
-  inputString = removeEmptyIndices(inputString);
-  // inputString.match(/[^\;]+\;?|\;/g);
-  inputString = splitByBrackets(inputString);
-  //  outputArray = combineSemiColonsWithPreviousLines(outputArray);
-  inputString = removeEmptyIndices(inputString);
-  inputString = injectHelpers(inputString);
+      inputString = commentsCleanse(inputString);
+      if (checkForIllegalKW(inputString.join("\n"))) {
+        return;
+      }
+      let newSeed = Math.random() * 17;
+      for (let i in inputString) {
+        let newHash = hash(i + newSeed + "");
+        inputString[i] = cleanString(inputString[i]) + "//lineNumber=" + newHash;
+        lineNumberMap.set(newHash, Number(i));
+      }
+      inputString = trimStringInArray(inputString);
+      inputString = removeEmptyIndices(inputString);
+      // inputString.match(/[^\;]+\;?|\;/g);
+      inputString = splitByBrackets(inputString);
+      //  outputArray = combineSemiColonsWithPreviousLines(outputArray);
+      inputString = removeEmptyIndices(inputString);
+      inputString = injectHelpers(inputString);
   return inputString;
 }
 function commentsCleanse(array) {
@@ -115,7 +115,7 @@ function commentsCleanse(array) {
 function splitByBrackets(inputString) {
   var outputArray = new Array();
   for (var x = 0; x < inputString.length; x++) {
-    var temp = inputString[x].split(/([{}])(?![^(|"|']*\)|"|')/g);
+    var temp = inputString[x].split(/({})(?=(?:[^"]|"[^"]*")*$)/);
     for (var index = 0; index < temp.length; index++) {
       outputArray.push(temp[index]);
     }
