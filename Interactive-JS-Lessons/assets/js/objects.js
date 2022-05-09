@@ -10,7 +10,7 @@ class Data {
     this.js = data.js;
     this.html = data.html;
     this.css = data.css;
-    this.type = data.type;
+    this.type = data.type || "lesson";
     this.title = data.title;
     this.text = data.text;
     this.testQuestionSet = new Array();

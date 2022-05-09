@@ -12,7 +12,7 @@ window.onload = function () {
         if (window.location.href.match("simplejsclasses")) {
             window.location.href = "/Interactive-JS-Lessons/?labID=" + newLabID;
         } else {
-            window.location.href = "?labID=" + newLabID;
+            window.location.href = "?key=" + newLabID;
         }
     });
     fetchData();
