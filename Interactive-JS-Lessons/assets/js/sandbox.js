@@ -43,10 +43,15 @@ function fetchData(newLabID) {
     },
     body: JSON.stringify(data)
   }
-  fetch('http://137.184.237.82:3000/requestLab', options).then((response) => response.json()).then((data) => {
+  fetch('https://simplejsclasses.net:8443/requestLab', options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     if (data.error) {
       console.log(data.error);
+      displayContents = displayError;
+      getInitStartingCode = function(){
+        return "//your code here";
+      }
+      init(data);
     }
     else {
       if (data.type === "demo") {
@@ -109,7 +114,7 @@ function fetchData(newLabID) {
 }
 
 var checkTests = function () {
-  if (window.failedTests.size() === 0 && newData.type !== "") {
+  if (window.failedTests.size() === 0 && newData.type === "lesson") {
     $(`#test-num-${newData.currentQuestion}`).addClass("fadeOut");
     logToPage("you passed!");
     if (Number(newData.currentQuestion) == newData.testQuestionSet.length - 1) {

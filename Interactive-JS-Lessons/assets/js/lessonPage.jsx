@@ -52,3 +52,9 @@ function displayDemo(data){
   }());
   root.render(elements);
 }
+
+function displayError(data){
+  ReactDOM.createRoot(lessonPage).render(function(){
+    return <section><p>{data.error}</p></section>;
+  }())
+}

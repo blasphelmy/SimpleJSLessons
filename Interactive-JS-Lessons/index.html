@@ -389,8 +389,12 @@
 
         <div class="heightAdjustment"
             style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
-            <span id="btnContainer" style="position: relative; top:0;display:none; width: 100%;"><button
-                    id="loadJS">js</button><button id="loadCSS">css</button><button id="loadHTML">html</button><button style="float: right;" id="publishDemo">Publish Demo</button></span>
+            <span id="btnContainer" style="position: relative; top:0;display:none; width: 100%;">
+                <button id="loadJS">js</button>
+                    <button id="loadCSS">css</button>
+                    <button id="loadHTML">html</button>
+                    <button style="float: right;" id="publishDemo">Publish Demo</button>
+            </span>
             <script>
                 document.getElementById("loadJS").addEventListener("click", function () {
                     activeContent = "JS";
@@ -475,9 +479,7 @@
             </div>
             <div id="ConsoleContainer"></div>
         </div>
-
-        <div id="lessonPage" class="heightAdjustment"
-            style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
+        <div id="lessonPage" class="heightAdjustment" style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
     </div>
     <!-- react scripts -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
