@@ -71,11 +71,11 @@ function hash(str) {
 };
 function checkForIllegalKW(string) {
   for (word of RULES) {
-    if (new RegExp(`\\b${word}\\b`).test(string)) {
-      window.logToPage(`ILLEGAL WORD: ${word}`);
-      return true;
-    }
-  }
+  //   if (new RegExp(`\\b${word}\\b`).test(string)) {
+  //     window.logToPage(`ILLEGAL WORD: ${word}`);
+  //     return true;
+  //   }
+  // }
   return false;
 }
 function breakIntoComponents(inputString) {
