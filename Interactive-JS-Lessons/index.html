@@ -369,7 +369,7 @@
             style="color: rgba(255,255,255,0.9);font-size: 30px;">JS Lessons</a>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link active" href="?key=256473643400683"
+                <li class="nav-item"><a class="nav-link active" href="?key=5740171432582702"
                     style="color: rgb(97,161,255);">Create a Demo</a></li>
                 <li class="nav-item"><a class="nav-link active" href=""
                         style="color: rgb(97,161,255);">Create a Lesson</a></li>
@@ -429,8 +429,8 @@
                                 testQuestionSet: [],
                             })
                         }
-                        fetch('http://137.184.237.82:3000/postLab', newPost).then((response) => response.json()).then((data) => {
-                            alert(`Your new demo will be available to view at \nhttp://simplejsclasses.net/Interactive-JS-Lessons/?labID=${data.URL}`)
+                        fetch('https://simplejsclasses.net:8443/postLab', newPost).then((response) => response.json()).then((data) => {
+                            alert(`Your new demo will be available to view at \nhttps://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/?key=${data.URL}`)
                             window.location.href = "?labID=" + data.URL;
                         });
                     }
