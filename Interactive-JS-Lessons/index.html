@@ -430,8 +430,9 @@
                             })
                         }
                         fetch('https://simplejsclasses.net:8443/postLab', newPost).then((response) => response.json()).then((data) => {
-                            alert(`Your new demo will be available to view at \nhttps://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/?key=${data.URL}`)
-                            window.location.href = "?labID=" + data.URL;
+                            window.logToPage(`Your new demo will be available to view at`);
+                            window.logToPage(`https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/?key=${data.URL}`);
+                            // window.location.href = "?labID=" + data.URL;
                         });
                     }
                 });
