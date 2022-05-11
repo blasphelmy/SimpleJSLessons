@@ -71,19 +71,19 @@ function hash(str) {
 };
 function checkForIllegalKW(string) {
   for (word of RULES) {
-  //   if (new RegExp(`\\b${word}\\b`).test(string)) {
-  //     window.logToPage(`ILLEGAL WORD: ${word}`);
-  //     return true;
-  //   }
-  // }
+    if (new RegExp(`\\b${word}\\b`).test(string)) {
+      window.logToPage(`ILLEGAL WORD: ${word}`);
+      return true;
+    }
+  }
   return false;
 }
 function breakIntoComponents(inputString) {
   inputString = inputString.split("\n");
       inputString = commentsCleanse(inputString);
-      if (checkForIllegalKW(inputString.join("\n"))) {
-        return;
-      }
+      // if (checkForIllegalKW(inputString.join("\n"))) {
+      //   return;
+      // }
       let newSeed = Math.random() * 17;
       for (let i in inputString) {
         let newHash = hash(i + newSeed + "");
