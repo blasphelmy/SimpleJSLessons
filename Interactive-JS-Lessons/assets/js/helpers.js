@@ -1,25 +1,31 @@
 window.onload = function () {
     var element = document.getElementsByClassName("heightAdjustment");
-    var elementOffSetter = document.getElementById("navBar");
+    // var elementOffSetter = document.getElementById("navBar");
+    var elementOffSetter = {
+        offsetHeight: 0
+    }
     fillVerticalHeight(element, elementOffSetter.offsetHeight);
     var x = elementOffSetter.offsetHeight;
     element = document.getElementById("codeEditor");
     elementOffSetter = document.getElementById("ConsoleContainer");
     var y = document.getElementById("runButtonContainer").offsetHeight;
     fillVerticalHeight(element, elementOffSetter.offsetHeight + x + y);
-    document.getElementById("searchButton").addEventListener("click", function () {
-        var newLabID = document.getElementById("searchField").value;
-        if (window.location.href.match("simplejsclasses")) {
-            window.location.href = "/Interactive-JS-Lessons/?labID=" + newLabID;
-        } else {
-            window.location.href = "?key=" + newLabID;
-        }
-    });
+    // document.getElementById("searchButton").addEventListener("click", function () {
+    //     var newLabID = document.getElementById("searchField").value;
+    //     if (window.location.href.match("simplejsclasses")) {
+    //         window.location.href = "/Interactive-JS-Lessons/?labID=" + newLabID;
+    //     } else {
+    //         window.location.href = "?key=" + newLabID;
+    //     }
+    // });
     fetchData();
 }
 window.onresize = function () {
     var element = document.getElementsByClassName("heightAdjustment");
-    var elementOffSetter = document.getElementById("navBar");
+    // var elementOffSetter = document.getElementById("navBar");
+    var elementOffSetter = {
+        offsetHeight: 0
+    }
     fillVerticalHeight(element, elementOffSetter.offsetHeight);
     var x = elementOffSetter.offsetHeight;
     element = document.getElementById("codeEditor");
