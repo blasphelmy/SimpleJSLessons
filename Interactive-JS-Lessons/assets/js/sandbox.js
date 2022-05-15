@@ -36,7 +36,7 @@ function fetchData(newLabID) {
     },
     body: JSON.stringify(data)
   }
-  fetch('http://localhost:3000/requestLab', options).then((response) => response.json()).then((data) => {
+  fetch('https://simplejsclasses.net/requestLab', options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     if (data.error) {
       console.log(data.error);
