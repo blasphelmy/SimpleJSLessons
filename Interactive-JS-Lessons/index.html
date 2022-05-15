@@ -399,15 +399,18 @@
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({
-                                type : "demo",
-                                html : localStorage.getItem("textAreaHTML" + currentLabID) || newData.html,
-                                js : localStorage.getItem("textArea" + currentLabID) || newData.js,
-                                css : localStorage.getItem("textAreaCSS" + currentLabID) || newData.css,
-                                currentQuestion: 0,
-                                testQuestionSet: [],
+                                data : {
+                                    type : "demo",
+                                    html : localStorage.getItem("textAreaHTML" + currentLabID) || newData.html,
+                                    js : localStorage.getItem("textArea" + currentLabID) || newData.js,
+                                    css : localStorage.getItem("textAreaCSS" + currentLabID) || newData.css,
+                                    currentQuestion: 0,
+                                    testQuestionSet: []
+                                },
+                                saveTokenID: localStorage.getItem("saveTokenID")
                             })
                         }
-                        fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
+                        fetch('http://localhost:3000/postLab', newPost).then((response) => response.json()).then((data) => {
                             window.logToPage(`Your new demo will be available to view at`);
                             window.logToPage(`https://simplejsclasses.net/?key=${data.URL}`);
                             // window.location.href = "?labID=" + data.URL;

@@ -4,6 +4,7 @@ var newData;
 var gutter;
 var getInitStartingCode;
 var activeContent = "JS";
+var urlParameters = new Map();
 var activeAnimationListener = {
   aInternal: 0,
   aListener: function (val) { },
@@ -25,15 +26,7 @@ activeAnimationListener.registerListener(function (val) {
     document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay / 1000).toLocaleString("en", { useGrouping: false, minimumFractionDigits: 2 }) + "s ";
   }
 });
-var labID = function () {
-  try {
-    var number = Number((window.location.href).split('?')[1].split('=')[1]);
-  } catch (error) {
-    return 268945738906855;
-  }
-  return number;
-};
-var currentLabID = labID();
+var currentLabID;
 function fetchData(newLabID) {
   var data = { labID: newLabID || labID() };
   var options = {
@@ -43,7 +36,7 @@ function fetchData(newLabID) {
     },
     body: JSON.stringify(data)
   }
-  fetch('https://simplejsclasses.net/requestLab', options).then((response) => response.json()).then((data) => {
+  fetch('http://localhost:3000/requestLab', options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     if (data.error) {
       console.log(data.error);

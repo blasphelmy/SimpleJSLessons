@@ -18,7 +18,11 @@ window.onload = function () {
     //         window.location.href = "?key=" + newLabID;
     //     }
     // });
-    fetchData();
+    extractURLParems();
+    currentLabID = urlParameters.get("key") || 268945738906855;
+    localStorage.setItem("saveTokenID", urlParameters.get("saveTokenID") || localStorage.getItem("saveTokenID"));
+    console.log("save token id localstoage", localStorage.getItem("saveTokenID"));
+    fetchData(currentLabID);
 }
 window.onresize = function () {
     var element = document.getElementsByClassName("heightAdjustment");
@@ -41,4 +45,16 @@ function fillVerticalHeight(targetElement, offsetHeight) {
     } else {
         targetElement.style.height = (window.innerHeight - offsetHeight) + "px";
     }
+}
+function extractURLParems() {
+    try {
+        let parameters = window.location.href.split("?")[1].split("&");
+        for (parameter of parameters) {
+            let keyValue = parameter.split("=");
+            urlParameters.set(keyValue[0], keyValue[1]);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    console.log(urlParameters);
 }
