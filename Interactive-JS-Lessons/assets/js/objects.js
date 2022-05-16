@@ -1,5 +1,6 @@
 class Data {
   title;
+  signature;
   text;
   html;
   css;
@@ -15,6 +16,7 @@ class Data {
     this.text = data.text;
     this.testQuestionSet = new Array();
     this.currentQuestion = 0;
+    this.signature = data.signature;
     if (data) {
       for (var i = 0; i < data.testQuestionSet.length; i++) {
         var newQuestion = new Question(data.testQuestionSet[i]);
@@ -61,11 +63,13 @@ function sendCompletedTest() {
   if(newData.type === "lesson" && localStorage.getItem("saveTokenID")){
     var testresults = {
       data : {
+        signature : newData.signature || undefined,
         title: newData.title,
         text : newData.text,
         type : "lessonAnswers",
         currentQuestion: 0,
         testQuestionSet: newData.testQuestionSet
+
       },
       saveTokenID: localStorage.getItem("saveTokenID")
   };
@@ -79,6 +83,9 @@ function sendCompletedTest() {
   fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
     window.logToPage("Your answers has been saved!");
   });
+  // fetch('http://localhost:3000/postLab', newPost).then((response) => response.json()).then((data) => {
+  //   window.logToPage("Your answers has been saved!");
+  // });
   }
 }
 class Question {
