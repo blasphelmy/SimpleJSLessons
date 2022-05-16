@@ -107,7 +107,7 @@ function fetchData(newLabID) {
 }
 
 var checkTests = function () {
-  if (window.failedTests.size() === 0 && newData.type === "lesson") {
+  if (window.failedTests.size() === 0 && (newData.type === "lesson" || newData.type === "lessonAnswers")) {
     $(`#test-num-${newData.currentQuestion}`).addClass("fadeOut");
     logToPage("you passed!");
     if (Number(newData.currentQuestion) == newData.testQuestionSet.length - 1) {

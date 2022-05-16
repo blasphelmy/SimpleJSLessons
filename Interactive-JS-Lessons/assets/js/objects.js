@@ -27,6 +27,7 @@ class Data {
     this.testQuestionSet.push(newQuestion);
   }
   nextQuestion() {
+    this.testQuestionSet[this.currentQuestion].startingCode = localStorage.getItem(("textArea" + currentLabID));
     this.currentQuestion++;
     try {
       if (this.testQuestionSet[this.currentQuestion].startingCode !== "keep previous" || undefined) {
@@ -41,6 +42,7 @@ class Data {
       localStorage.setItem(`${currentLabID}`, this.testQuestionSet.length + 1);
     }
     if (this.currentQuestion >= this.testQuestionSet.length) {
+      sendCompletedTest();
       this.currentQuestion = this.testQuestionSet.length - 1;
     }
   }
@@ -52,6 +54,31 @@ class Data {
   }
   returnQuestionSet() {
     return this.testQuestionSet;
+  }
+}
+function sendCompletedTest() {
+
+  if(newData.type === "lesson" && localStorage.getItem("saveTokenID")){
+    var testresults = {
+      data : {
+        title: newData.title,
+        text : newData.text,
+        type : "lessonAnswers",
+        currentQuestion: 0,
+        testQuestionSet: newData.testQuestionSet
+      },
+      saveTokenID: localStorage.getItem("saveTokenID")
+  };
+  var newPost = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(testresults)
+  }
+  fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
+    window.logToPage("Your answers has been saved!");
+  });
   }
 }
 class Question {
