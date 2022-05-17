@@ -55,7 +55,6 @@ function displayTests (newData){
 
 function displayDemo(){
   lessonPageIFrame.srcdoc = `
-  <link rel="stylesheet" href="https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/assets/css/lessonPage.css">
     <div id="lessonPage" class="heightAdjustment" style="width: 100;height:100vh;overflow: scroll;">
       <section>
         <div>${newData.html}</div>
