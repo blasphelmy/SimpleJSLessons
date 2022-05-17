@@ -54,13 +54,13 @@ var injectHelpers = function (array, start) {
       string = string.trim();
       if (string.match(/(^console.log)/)) {
         var logString = string.split(/^([ ]*)+(?:[console])+([ ]*)+([.])+([ ]*)+(?:log)/gm)[5];
-        logString = logString.split(/\/\//)[0];
+        logString = logString.split(/(\/\/)(?=(?:[^"|`|']|"[^"]*")*$)/g)[0];
         logString = logString.split(";")[0];
         logString = logString.slice(1, logString.length - 1);
         var logArray = JSON.stringify(logString.split(/,(?=(?:(?:[^"|^']*"){2})*[^"|^']*$)/));
         newArray.push(`{
           let logString = ${logArray}.map(log=>JSON.stringify(eval(log))).join(" ").replace(/["|']/g, '');
-          logToPage(logString);
+          window.top.postMessage(logString, '*')
           }`);
       } else {
         newArray.push(string);

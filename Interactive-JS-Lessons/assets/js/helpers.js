@@ -1,3 +1,8 @@
+window.onmessage = function(e) {
+    if (e.data) {
+        logToPage(e.data)
+    }
+};
 window.onload = function () {
     lessonPageIFrame = document.getElementById('lessonPage');
     var element = document.getElementsByClassName("heightAdjustment");

@@ -102,7 +102,7 @@ function breakIntoComponents(inputString) {
 function commentsCleanse(array) {
   let newArray = new Array();
   for (string of array) {
-    if (string.match(/(?:\/\/)/)) {
+    if (string.match(/(?:\/\/)(?=(?:[^"|`|']|"[^"]*")*$)/g)) {
       let cleansedString = string.split(/(?:\/\/)/)[0];
       newArray.push(cleansedString);
     } else {

@@ -177,15 +177,6 @@ var runCurrentTest = function (newData) {
     if (checkForIllegalKW(newData.html) || checkForIllegalKW(newData.css)) {
       return;
     }
-    lessonPageIFrame.srcdoc = `
-    <div id="lessonPage" class="heightAdjustment" style="width: 100%;height:100vh;">
-      <section>
-        <div>${newData.html}</div>
-        <style>${newData.css}</style>
-        <script>${localStorage.getItem("textArea" + currentLabID) || newData.css}</script>
-      </section>
-    </div>`
-return;
   }
   // editor.getDoc().setValue(localStorage.getItem(("textArea" + currentLabID)));  
   enableLineAnimations = document.getElementById("lineAnimationCheckbox").checked;
@@ -219,7 +210,18 @@ return;
   }
   console.log("injection", injection.join("\n"));
   try { //"just wrap it in a try catch"
-    Function(injection.join("\n"))(); //we should look into this option, though I wasn't able to access internal variables and functions https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
+    if(newData.type === "demo"){
+      lessonPageIFrame.srcdoc = `
+    <div id="lessonPage" class="heightAdjustment" style="width: 100%;height:100vh;">
+      <section>
+        <div>${newData.html}</div>
+        <style>${newData.css}</style>
+        <script>${injection.join("\n")}</script>
+      </section>
+    </div>`
+    }else{
+      Function(injection.join("\n"))(); //we should look into this option, though I wasn't able to access internal variables and functions https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
+    }
   } catch (error) {
     window.failedTests.push(error);
     logToPage(error);
@@ -241,25 +243,27 @@ return;
 function generateInjection() {
   var newArray = new Array();
   //here, you inject any lines of code you want
-  newArray.push(`
-  var currentFrame = new Frame();
-  var frameStack = new Stack();
-  `);
+  if(newData.type !== "demo"){
+    newArray.push(`
+    var currentFrame = new Frame();
+    var frameStack = new Stack();
+    `);
+  }
 
   //begin parsing of code in code editor;
-  console.log(localStorage.getItem("textArea" + currentLabID));
   var newInjectedCode = breakIntoComponents(localStorage.getItem("textArea" + currentLabID)).join("\n");
   newArray.push(newInjectedCode);
 
+  if(newData.type === "demo"){
+    return newArray;
+  }
   //push other tests here.
-  newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
-  if (newData.type !== "demo") {
+    newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
     newArray.push("(()=>{");
     newArray.push(makeConsoleTester(newData.returnCurrentQuestion().logs));
     newArray.push(makeVariableTester(newData.returnCurrentQuestion().vars));
     newArray.push(makeFunctionTester(newData.returnCurrentQuestion().functs));
     newArray.push("})()");
-  }
   newArray.push(` 
   window.currentFrame = currentFrame;
   console.log(window.currentFrame);
