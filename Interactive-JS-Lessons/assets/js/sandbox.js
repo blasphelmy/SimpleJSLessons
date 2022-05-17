@@ -178,13 +178,13 @@ var runCurrentTest = function (newData) {
       return;
     }
     lessonPageIFrame.srcdoc = `
-    <div id="lessonPage" class="heightAdjustment" style="width: 100;height:100vh;overflow: scroll;">
+    <link rel="stylesheet" href="https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/assets/css/lessonPage.css">
+    <div id="lessonPage" class="heightAdjustment" style="width: 100%;height:100vh;">
       <section>
         <div>${newData.html}</div>
         <style>${newData.css}</style>
         <script>${localStorage.getItem("textArea" + currentLabID) || newData.css}</script>
       </section>
-      <link rel="stylesheet" href="https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/assets/css/lessonPage.css">
     </div>`
 return;
   }
