@@ -2,7 +2,7 @@
 var displayContents;
 
 function displayTests (newData){
-  var lessonPage = document.getElementById("lessonPage");
+  var lessonPage = lessonPageIFrame.contentDocument.getElementById("lessonPage");
   var root = ReactDOM.createRoot(lessonPage);
   var elements = new Array();
   if(newData.signature){
@@ -13,7 +13,6 @@ function displayTests (newData){
         <section><h1>{newData.title}</h1><p>{newData.text}</p></section>
         );
     }());
-
   for(let i in newData.returnQuestionSet()){
     let newQuestion = newData.returnQuestionSet()[i];
     if(newData.signature){
@@ -54,24 +53,16 @@ function displayTests (newData){
   root.render(elements);
 }
 
-function displayDemo(data){
-  var lessonPage = document.getElementById("lessonPage");
-  var root = ReactDOM.createRoot(lessonPage);
-  var elements = new Array();
-  elements.push(function(){
-    return (
-      <section className="reset-this">
-      {function(){
-        if(newData.signature){
-          return <h2>Created by {newData.signature}</h2>
-        }
-      }()}  
-        <style dangerouslySetInnerHTML={ { __html: data.css}}></style>
-        <div dangerouslySetInnerHTML={ { __html: data.html}}></div>
+function displayDemo(){
+  lessonPageIFrame.srcdoc = `
+    <div id="lessonPage" class="heightAdjustment" style="width: 100;height:100vh;overflow: scroll;">
+      <section>
+        <div>${newData.html}</div>
+        <style>${newData.css}</style>
+        <script>${localStorage.getItem("textArea" + currentLabID) || newData.css}</script>
       </section>
-      );
-  }());
-  root.render(elements);
+      <link rel="stylesheet" href="https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/assets/css/lessonPage.css">
+    </div>`
 }
 
 function displayError(data){

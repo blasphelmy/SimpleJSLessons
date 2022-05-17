@@ -59,7 +59,6 @@ class Data {
   }
 }
 function sendCompletedTest() {
-
   if(newData.type === "lesson" && localStorage.getItem("saveTokenID")){
     var testresults = {
       data : {

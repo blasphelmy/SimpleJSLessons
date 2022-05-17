@@ -30,11 +30,15 @@
     <script src="assets/js/sandbox.js"></script>
 </head>
 <style>
-    body {
+    /* body {
         overflow: hidden;
         background-color: rgb(61, 61, 61);
+    } */
+    html, body {
+        padding: 0;
+        margin: 0;
+        background-color: rgb(234, 234, 234);
     }
-
     #exceSlider {
         display: inline;
         position: relative;
@@ -121,7 +125,7 @@
     }
 
     .example {
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         padding: 10px;
         padding-left: 30px;
         background-color: rgba(54, 54, 54, 0.198);
@@ -462,7 +466,11 @@
             </div>
             <div id="ConsoleContainer"></div>
         </div>
-        <div id="lessonPage" class="heightAdjustment" style="background: rgb(234, 234, 234);width: 49.999%;overflow: scroll;"></div>
+        <iframe style="position:relative; width:49.98%; height: 100vh;overflow: scroll;" sandbox='allow-scripts allow-same-origin' id="lessonPage" srcdoc='
+            <link rel="stylesheet" href="https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/assets/css/lessonPage.css">
+            <div id="lessonPage" class="heightAdjustment" style="background: rgb(234, 234, 234);width: 100;"></div>
+        '>
+        </iframe>
     </div>
     <!-- react scripts -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>

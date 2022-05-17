@@ -5,6 +5,7 @@ var gutter;
 var getInitStartingCode;
 var activeContent = "JS";
 var urlParameters = new Map();
+var lessonPageIFrame;
 var activeAnimationListener = {
   aInternal: 0,
   aListener: function (val) { },
@@ -108,7 +109,8 @@ function fetchData(newLabID) {
 
 var checkTests = function () {
   if (window.failedTests.size() === 0 && (newData.type === "lesson" || newData.type === "lessonAnswers")) {
-    $(`#test-num-${newData.currentQuestion}`).addClass("fadeOut");
+    let testNum = lessonPageIFrame.contentDocument.getElementById(`test-num-${newData.currentQuestion}`);
+    testNum.classList.add("fadeOut");
     logToPage("you passed!");
     if (Number(newData.currentQuestion) == newData.testQuestionSet.length - 1) {
       logToPage("Congrats on getting to the end!");
@@ -175,10 +177,16 @@ var runCurrentTest = function (newData) {
     if (checkForIllegalKW(newData.html) || checkForIllegalKW(newData.css)) {
       return;
     }
-    document.getElementById("lessonPage").innerHTML = `<section class="reset-this">
-<div>${newData.html}</div>
-<style>${newData.css}</style>
-</section>`
+    lessonPageIFrame.srcdoc = `
+    <div id="lessonPage" class="heightAdjustment" style="width: 100;height:100vh;overflow: scroll;">
+      <section>
+        <div>${newData.html}</div>
+        <style>${newData.css}</style>
+        <script>${localStorage.getItem("textArea" + currentLabID) || newData.css}</script>
+      </section>
+      <link rel="stylesheet" href="https://blasphelmy.github.io/SimpleJSLessons/Interactive-JS-Lessons/assets/css/lessonPage.css">
+    </div>`
+return;
   }
   // editor.getDoc().setValue(localStorage.getItem(("textArea" + currentLabID)));  
   enableLineAnimations = document.getElementById("lineAnimationCheckbox").checked;

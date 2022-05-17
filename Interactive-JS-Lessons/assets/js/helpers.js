@@ -1,4 +1,5 @@
 window.onload = function () {
+    lessonPageIFrame = document.getElementById('lessonPage');
     var element = document.getElementsByClassName("heightAdjustment");
     // var elementOffSetter = document.getElementById("navBar");
     var elementOffSetter = {

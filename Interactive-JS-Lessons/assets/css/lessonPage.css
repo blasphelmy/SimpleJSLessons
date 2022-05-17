@@ -1,0 +1,102 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    background-color: rgb(234, 234, 234);
+}
+.example {
+    font-family: "Courier New", Courier, monospace;
+    padding: 10px;
+    padding-left: 30px;
+    background-color: rgba(54, 54, 54, 0.198);
+    border-radius: 10px;
+}
+
+.example>p {
+    position: relative;
+    top: 8px;
+}
+
+.passed {
+    filter: opacity(.3);
+}
+
+.hide {
+    display: none;
+}
+
+.fadeOut {
+    filter: opacity(.5);
+    animation-name: fadeOutTest;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 200ms;
+    background-color: rgba(0, 153, 255, 0.203);
+}
+
+@keyframes fadeOutTest {
+    0% {
+        background-color: rgba(0, 0, 0, 0);
+        filter: opacity(1);
+    }
+
+    100% {
+        background-color: rgba(0, 153, 255, 0.42);
+        filter: opacity(.5);
+    }
+}
+
+.fadeOutVis {
+    animation-name: fadeOut;
+    animation-iteration-count: 1;
+    animation-duration: 200ms;
+}
+
+.fadeInVis {
+    animation-name: fadeIn;
+    animation-iteration-count: 1;
+    animation-duration: 200ms;
+}
+
+@keyframes fadeOut {
+    0% {
+        background-color: limegreen;
+        filter: opacity(1);
+    }
+
+    100% {
+        background-color: rgba(0, 0, 0, 0);
+        filter: opacity(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        background-color: rgba(0, 0, 0, 0);
+        filter: opacity(0);
+    }
+
+    30% {
+        background-color: limegreen;
+        filter: opacity(.8);
+    }
+
+    100% {
+        background-color: limegreen;
+        filter: opacity(1);
+    }
+}
+section {
+    padding: 30px;
+    white-space: pre-wrap;
+}
+
+console {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 7px;
+    padding-left: 10px;
+    color: rgb(209, 209, 209);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 13px;
+}
