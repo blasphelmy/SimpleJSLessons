@@ -207,6 +207,7 @@ var runCurrentTest = function (newData) {
   } catch (error) {
     window.failedTests.push("Code error. Please try running in sandbox mode or disable timing functions if enabled");
     console.log(error);
+    return;
   }
   // console.log("injection", injection.join("\n"));
   try { //"just wrap it in a try catch"
