@@ -82,7 +82,7 @@ function sendCompletedTest() {
   }
   fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
     window.logToPage("Your answers has been saved!");
-    window.logToPage("you can find your answers at http://simplejsclasses.net?key=" + data.url);
+    window.logToPage("you can find your answers at http://simplejsclasses.net?key=" + data.URL);
   });
   // fetch('http://localhost:3000/postLab', newPost).then((response) => response.json()).then((data) => {
   //   window.logToPage("Your answers has been saved!");

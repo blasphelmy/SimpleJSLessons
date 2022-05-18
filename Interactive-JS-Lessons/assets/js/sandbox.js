@@ -83,6 +83,7 @@ function fetchData(newLabID) {
         }else{
           localStorage.setItem(("objectData" + currentLabID), JSON.stringify(newData.testQuestionSet));
         }
+        console.log(newData);
         getInitStartingCode = function () {
           if (localStorage.getItem(`${currentLabID}`)) {
             newData.currentQuestion = localStorage.getItem(`${currentLabID}`);
