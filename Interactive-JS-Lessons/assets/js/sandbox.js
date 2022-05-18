@@ -205,7 +205,7 @@ var runCurrentTest = function (newData) {
   try {
     var injection = generateInjection();
   } catch (error) {
-    window.failedTests.push(error);
+    window.failedTests.push("Code error. Please try running in sandbox mode or disable timing functions if enabled");
     console.log(error);
   }
   // console.log("injection", injection.join("\n"));
