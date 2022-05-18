@@ -30,7 +30,7 @@ class Data {
   }
   nextQuestion() {
     this.testQuestionSet[this.currentQuestion].startingCode = localStorage.getItem(("textArea" + currentLabID));
-    localStorage.setItem(("objectData" + currentLabID), JSON.stringify(this));
+    localStorage.setItem(("objectData" + currentLabID), JSON.stringify(this.testQuestionSet));
     this.currentQuestion++;
     try {
       if (this.testQuestionSet[this.currentQuestion].startingCode !== "keep previous" || undefined) {

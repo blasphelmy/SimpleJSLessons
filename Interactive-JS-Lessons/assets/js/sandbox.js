@@ -79,9 +79,9 @@ function fetchData(newLabID) {
       } else if (data.testQuestionSet) {
         newData = new Data(data);
         if(localStorage.getItem(("objectData" + currentLabID))){
-          newData = JSON.parse(localStorage.getItem(("objectData" + currentLabID)));
+          newData = JSON.parse(localStorage.getItem(("objectData" + currentLabID.testQuestionSet)));
         }else{
-          localStorage.setItem(("objectData" + currentLabID), JSON.stringify(newData));
+          localStorage.setItem(("objectData" + currentLabID), JSON.stringify(newData.testQuestionSet));
         }
         getInitStartingCode = function () {
           if (localStorage.getItem(`${currentLabID}`)) {
