@@ -27,7 +27,6 @@ window.onload = function () {
     extractURLParems();
     currentLabID = urlParameters.get("key") || 268945738906855;
     localStorage.setItem("saveTokenID", urlParameters.get("saveTokenID") || localStorage.getItem("saveTokenID"));
-    console.log("save token id localstoage", localStorage.getItem("saveTokenID"));
     fetchData(currentLabID);
 }
 window.onresize = function () {
@@ -62,5 +61,4 @@ function extractURLParems() {
     } catch (error) {
         console.log(error);
     }
-    console.log(urlParameters);
 }

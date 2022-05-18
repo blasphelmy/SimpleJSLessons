@@ -125,7 +125,7 @@ var checkTests = function () {
 }
 
 function init(data) {
-  console.log(data);
+  // console.log(data);
   editor = CodeMirror(document.querySelector('#codeEditor'), {
     lineNumbers: true,
     firstLineNumber: 0,
@@ -208,7 +208,7 @@ var runCurrentTest = function (newData) {
     window.failedTests.push(error);
     console.log(error);
   }
-  console.log("injection", injection.join("\n"));
+  // console.log("injection", injection.join("\n"));
   try { //"just wrap it in a try catch"
     if(newData.type === "demo"){
       lessonPageIFrame.srcdoc = `
