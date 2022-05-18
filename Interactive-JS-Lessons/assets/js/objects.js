@@ -30,6 +30,7 @@ class Data {
   }
   nextQuestion() {
     this.testQuestionSet[this.currentQuestion].startingCode = localStorage.getItem(("textArea" + currentLabID));
+    localStorage.setItem(("objectData" + currentLabID), JSON.stringify(this));
     this.currentQuestion++;
     try {
       if (this.testQuestionSet[this.currentQuestion].startingCode !== "keep previous" || undefined) {
@@ -81,6 +82,7 @@ function sendCompletedTest() {
   }
   fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
     window.logToPage("Your answers has been saved!");
+    window.logToPage("you can find your answers at http://simplejsclasses.net?key=" + data.url);
   });
   // fetch('http://localhost:3000/postLab', newPost).then((response) => response.json()).then((data) => {
   //   window.logToPage("Your answers has been saved!");
