@@ -85,6 +85,7 @@ function fetchData(newLabID) {
         init(newData);
       } else if (data.testQuestionSet) {
         newData = new Data(data);
+        $("#publishDemo").css("display", "none");
         if(localStorage.getItem(("objectData" + currentLabID))){
           newData.testQuestionSet = JSON.parse(localStorage.getItem(("objectData" + currentLabID)));
         }else{
