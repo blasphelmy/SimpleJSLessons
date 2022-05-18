@@ -24,6 +24,7 @@ activeAnimationListener.registerListener(function (val) {
   if (val === 0 && newData.type !== "demo") {
     checkTests();
     gutterDelay = document.getElementById("exceSlider").value;
+    gutterCounter = 0;
     document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay / 1000).toLocaleString("en", { useGrouping: false, minimumFractionDigits: 2 }) + "s ";
   }
 });
@@ -38,6 +39,7 @@ function fetchData(newLabID) {
     body: JSON.stringify(data)
   }
   fetch('https://simplejsclasses.net/requestLab', options).then((response) => response.json()).then((data) => {
+    // fetch('http://localhost:3000/requestLab', options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     if (data.error) {
       console.log(data.error);

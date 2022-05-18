@@ -416,6 +416,7 @@
                             })
                         }
                         fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
+                            // fetch('http://127.0.0.1:3000/postLab', newPost).then((response) => response.json()).then((data) => {
                             window.logToPage(`Your new demo will be available to view at`);
                             window.logToPage(`https://simplejsclasses.net/?key=${data.URL}`);
                             // window.location.href = "?labID=" + data.URL;
@@ -434,7 +435,7 @@
                         <script>
                             document.getElementById("lineAnimationCheckbox").addEventListener("input", function () {
                                 if (this.checked === true) {
-                                    alert(`disable this feature first if you encounter weird errors.\nIf line numbers don't match up with execution, reload the page. It is an issue with a library used.`);
+                                    window.logToPage(`disable this feature first if you encounter weird errors.\nIf line numbers don't match up with execution, reload the page. It is an issue with a library used.`);
                                 }
                             });
                             gutterDelay = document.getElementById("exceSlider").value;
@@ -453,7 +454,7 @@
                         <script>
                             document.getElementById("sandboxModeState").addEventListener("input", function () {
                                 if (this.checked === true) {
-                                    alert(`1. Testing in this mode will be deactivated \n2. You will have complete freedom of javascript in the editor*`);
+                                    window.logToPage(`1. Testing in this mode will be deactivated \n2. You will have complete freedom of javascript in the editor*`);
                                 }
                                 switch (this.checked) {
                                     case true: $("#lineAnimationCheckbox")[0].disabled = true; break;
