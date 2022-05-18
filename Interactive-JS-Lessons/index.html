@@ -362,8 +362,8 @@
 .dmButtons {
     display: inline-block;
     background-color: #2e2e2e;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     cursor: pointer;
@@ -373,14 +373,23 @@
 }
 .dmButtons > p {
     position: relative;
-    top : 8px;
-    color:rgb(209, 209, 209);
-    font-size: 16px;
+    top: 9px;
+    color: rgb(209, 209, 209);
+    font-size: 12px;
+    line-height: 27px;
+}
+.dmButtonsActive {
+    background-color: #4a4a4a;
 }
 
 </style>
 <script>
-
+function clearDemoButtons(){
+    let btnElements = document.getElementsByClassName("dmButtons");
+    for(element of btnElements){
+        element.classList.remove("dmButtonsActive");
+    }
+}
 </script>
 
 <body class="flex-column">
@@ -397,13 +406,19 @@
             <script>
                 document.getElementById("loadJS").addEventListener("click", function () {
                     activeContent = "JS";
+                    clearDemoButtons();
+                    document.getElementById("loadJS").classList.add("dmButtonsActive");
                     editor.setValue(localStorage.getItem("textArea" + currentLabID));
                 });
                 document.getElementById("loadCSS").addEventListener("click", function () {
+                    clearDemoButtons();
                     activeContent = "CSS";
+                    document.getElementById("loadCSS").classList.add("dmButtonsActive");
                     editor.setValue(localStorage.getItem("textAreaCSS" + currentLabID) || newData.css);
                 });
                 document.getElementById("loadHTML").addEventListener("click", function () {
+                    clearDemoButtons();
+                    document.getElementById("loadHTML").classList.add("dmButtonsActive");
                     activeContent = "HTML";
                     editor.setValue(localStorage.getItem("textAreaHTML" + currentLabID) || newData.html);
                 });

@@ -11,7 +11,7 @@ var lessonPageIFrame;
 // const postURL = "http://localhost:3000/postLab"
 
 const reqURL = "https://simplejsclasses.net/requestLab";
-const postURL = "https://simplejsclasses.net/postLab"
+const postURL = "https://simplejsclasses.net/postLab";
 
 var activeAnimationListener = {
   aInternal: 0,
@@ -73,6 +73,7 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           }
         }
+        document.getElementById("loadJS").classList.add("dmButtonsActive");
         $("#configStates").css("display", "none");
         $("#sandboxModeState").css("display", "none");
         $("#lineAnimationCheckbox").css("display", "none");
