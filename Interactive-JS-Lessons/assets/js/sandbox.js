@@ -7,8 +7,11 @@ var activeContent = "JS";
 var urlParameters = new Map();
 var lessonPageIFrame;
 
-const reqURL = "http://localhost:3000/requestLab";
-const postURL = "http://localhost:3000/postLab"
+// const reqURL = "http://localhost:3000/requestLab";
+// const postURL = "http://localhost:3000/postLab"
+
+const reqURL = "https://simplejsclasses.net/requestLab";
+const postURL = "https://simplejsclasses.net/postLab"
 
 var activeAnimationListener = {
   aInternal: 0,
