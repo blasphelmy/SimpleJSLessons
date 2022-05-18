@@ -67,6 +67,10 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           }
         }
+        $("#configStates").css("display", "none");
+        $("#sandboxModeState").css("display", "none");
+        $("#lineAnimationCheckbox").css("display", "none");
+        $("#sandboxModeLabel").css("display", "none");
         $("#sandboxModeState").prop("checked", true);
         $("#sandboxModeState").prop("disabled", true);
         $("#lineAnimationCheckbox").prop("disabled", true);

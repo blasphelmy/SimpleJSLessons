@@ -428,7 +428,7 @@
             <div id="runButtonContainer" class="noselect">
                 <span id="run">Run Code</span>
                 <div style="position:relative;display: inline-block; float: right; width: 263px;">
-                    <span style="float: right;">
+                    <span id="configStates" style="float: right;">
                         <input id="lineAnimationCheckbox" type="checkbox" style="position: relative; top:1px;">
                         <p id="timingLabel" style="display: inline-block;font-size: 10px;"></p>
                         <input id="exceSlider" type="range" min="40" max="1000" value="100" step="20" style="width: 75px;">
@@ -450,7 +450,7 @@
                     </span>
                     <span style="float: right;margin-right: 10px;">
                         <input id="sandboxModeState" type="checkbox" style="position: relative; top:1px;">
-                        <p style="display: inline-block;font-size: 10px;">SandboxMode</p>
+                        <p id="sandboxModeLabel" style="display: inline-block;font-size: 10px;">SandboxMode</p>
                         <script>
                             document.getElementById("sandboxModeState").addEventListener("input", function () {
                                 if (this.checked === true) {
