@@ -60,7 +60,7 @@ class Data {
   }
 }
 function sendCompletedTest() {
-  if(newData.type === "lesson" && localStorage.getItem("saveTokenID")){
+  if(newData.type === "lesson"){
     var testresults = {
       data : {
         signature : newData.signature || undefined,
@@ -80,7 +80,7 @@ function sendCompletedTest() {
     },
     body: JSON.stringify(testresults)
   }
-  fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
+  fetch(postURL, newPost).then((response) => response.json()).then((data) => {
     window.logToPage("Your answers has been saved!");
     window.logToPage("you can find your answers at https://simplejsclasses.net?key=" + data.URL);
   });

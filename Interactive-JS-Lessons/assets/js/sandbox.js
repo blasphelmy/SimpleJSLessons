@@ -6,6 +6,10 @@ var getInitStartingCode;
 var activeContent = "JS";
 var urlParameters = new Map();
 var lessonPageIFrame;
+
+const reqURL = "http://localhost:3000/requestLab";
+const postURL = "http://localhost:3000/postLab"
+
 var activeAnimationListener = {
   aInternal: 0,
   aListener: function (val) { },
@@ -38,8 +42,7 @@ function fetchData(newLabID) {
     },
     body: JSON.stringify(data)
   }
-  fetch('https://simplejsclasses.net/requestLab', options).then((response) => response.json()).then((data) => {
-    // fetch('http://localhost:3000/requestLab', options).then((response) => response.json()).then((data) => {
+    fetch(reqURL, options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     if (data.error) {
       console.log(data.error);

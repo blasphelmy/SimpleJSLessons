@@ -359,7 +359,24 @@
     all: initial;
     all: unset;
 }
-
+.dmButtons {
+    display: inline-block;
+    background-color: #2e2e2e;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    cursor: pointer;
+}
+.dmButtons:hover {
+    background-color: #4a4a4a;
+}
+.dmButtons > p {
+    position: relative;
+    top : 8px;
+    color:rgb(209, 209, 209);
+    font-size: smaller;
+}
 
 </style>
 <script>
@@ -372,10 +389,10 @@
         <div class="heightAdjustment"
             style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
             <span id="btnContainer" style="position: relative; top:0;display:none; width: 100%;">
-                <button id="loadJS">js</button>
-                    <button id="loadCSS">css</button>
-                    <button id="loadHTML">html</button>
-                    <button style="float: right;" id="publishDemo">Publish Demo</button>
+                <span class="dmButtons" id="loadJS" style="margin-left: 10px;"><p>JS</p></span>
+                    <span class="dmButtons" id="loadCSS"><p>CSS</p></span>
+                    <span class="dmButtons" id="loadHTML"><p>HTML</p></span>
+                    <span class="dmButtons" style="float: right;line-height:23px;" id="publishDemo"><p>Publish Demo</p></span>
             </span>
             <script>
                 document.getElementById("loadJS").addEventListener("click", function () {
@@ -415,11 +432,9 @@
                                 saveTokenID: localStorage.getItem("saveTokenID")
                             })
                         }
-                        fetch('https://simplejsclasses.net/postLab', newPost).then((response) => response.json()).then((data) => {
-                            // fetch('http://127.0.0.1:3000/postLab', newPost).then((response) => response.json()).then((data) => {
+                        fetch(postURL, newPost).then((response) => response.json()).then((data) => {
                             window.logToPage(`Your new demo will be available to view at`);
                             window.logToPage(`https://simplejsclasses.net/?key=${data.URL}`);
-                            // window.location.href = "?labID=" + data.URL;
                         });
                     }
                 });
