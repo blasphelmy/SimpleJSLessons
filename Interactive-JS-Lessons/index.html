@@ -388,6 +388,15 @@
     .dmButtonsActive {
         background-color: #4a4a4a;
     }
+    input {
+        position: relative;
+        top: 10px;
+        height: 43px;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+        border-style: none;
+        padding-left: 10px;
+    }
 </style>
 <script>
     function clearDemoButtons() {
@@ -413,6 +422,7 @@
                 <span class="dmButtons" id="loadHTML">
                     <p>HTML</p>
                 </span>
+                <input id="demoTitle" type="text" placeholder="Name your Demo">
             </span>
             <script>
                 document.getElementById("loadJS").addEventListener("click", function () {
@@ -493,6 +503,7 @@
                                                 html: localStorage.getItem("textAreaHTML" + currentLabID) || newData.html,
                                                 js: localStorage.getItem("textArea" + currentLabID) || newData.js,
                                                 css: localStorage.getItem("textAreaCSS" + currentLabID) || newData.css,
+                                                title: document.getElementById("demoTitle").value || "Untitled",
                                                 currentQuestion: 0,
                                                 testQuestionSet: []
                                             },

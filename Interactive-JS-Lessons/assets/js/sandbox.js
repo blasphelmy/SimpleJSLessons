@@ -7,11 +7,11 @@ var activeContent = "JS";
 var urlParameters = new Map();
 var lessonPageIFrame;
 
-// const reqURL = "http://localhost:3000/requestLab";
-// const postURL = "http://localhost:3000/postLab"
+var reqURL = "https://simplejsclasses.net/requestLab";
+var postURL = "https://simplejsclasses.net/postLab";
 
-const reqURL = "https://simplejsclasses.net/requestLab";
-const postURL = "https://simplejsclasses.net/postLab";
+// reqURL = "http://localhost:3000/requestLab";
+// postURL = "http://localhost:3000/postLab";
 
 var activeAnimationListener = {
   aInternal: 0,
@@ -45,22 +45,24 @@ function fetchData(newLabID) {
     },
     body: JSON.stringify(data)
   }
-    fetch(reqURL, options).then((response) => response.json()).then((data) => {
+  fetch(reqURL, options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     if (data.error) {
       console.log(data.error);
       displayContents = displayError;
-      getInitStartingCode = function(){
+      getInitStartingCode = function () {
         return "//your code here";
       }
       init(data);
     }
     else {
       if (data.type === "demo") {
+
         $("#btnContainer").css("display", "inline");
         newData = new Data(data);
         newData.html = localStorage.getItem("textAreaHTML" + currentLabID) || newData.html;
         newData.css = localStorage.getItem("textAreaCSS" + currentLabID) || newData.css;
+
         getInitStartingCode = function () {
           if (localStorage.getItem(("textArea" + currentLabID)) && localStorage.getItem(("textArea" + currentLabID)) !== "//your code here") {
             return localStorage.getItem(("textArea" + currentLabID));
@@ -80,18 +82,22 @@ function fetchData(newLabID) {
         $("#sandboxModeLabel").css("display", "none");
         $("#sandboxModeState").prop("checked", true);
         $("#sandboxModeState").prop("disabled", true);
+        $("#demoTitle").prop("value", newData.title);
         $("#lineAnimationCheckbox").prop("disabled", true);
         displayContents = displayDemo;
         init(newData);
+
       } else if (data.testQuestionSet) {
+
         newData = new Data(data);
         $("#publishDemo").css("display", "none");
-        if(localStorage.getItem(("objectData" + currentLabID))){
+        if (localStorage.getItem(("objectData" + currentLabID))) {
           newData.testQuestionSet = JSON.parse(localStorage.getItem(("objectData" + currentLabID)));
-        }else{
+        } else {
           localStorage.setItem(("objectData" + currentLabID), JSON.stringify(newData.testQuestionSet));
         }
         console.log(newData);
+
         getInitStartingCode = function () {
           if (localStorage.getItem(`${currentLabID}`)) {
             newData.currentQuestion = localStorage.getItem(`${currentLabID}`);
@@ -102,15 +108,15 @@ function fetchData(newLabID) {
             return localStorage.getItem(("textArea" + currentLabID));
           } else {
             try {
-              localStorage.setItem(("textArea" + currentLabID), function(){
-                if(newData.returnCurrentQuestion().startingCode === "keep previous"){
+              localStorage.setItem(("textArea" + currentLabID), function () {
+                if (newData.returnCurrentQuestion().startingCode === "keep previous") {
                   let currentQuestion = newData.currentQuestion;
                   let startingCode = newData.testQuestionSet[currentQuestion--].startingCode;
-                  while(startingCode === "keep previous"){
+                  while (startingCode === "keep previous") {
                     startingCode = newData.testQuestionSet[currentQuestion--].startingCode;
                   }
                   return startingCode;
-                }else{
+                } else {
                   return newData.returnCurrentQuestion().startingCode;
                 }
               }());
@@ -231,7 +237,7 @@ var runCurrentTest = function (newData) {
   }
   // console.log("injection", injection.join("\n"));
   try { //"just wrap it in a try catch"
-    if(newData.type === "demo"){
+    if (newData.type === "demo") {
       lessonPageIFrame.srcdoc = `
     <div id="lessonPage" class="heightAdjustment" style="width: 100%;height:100vh;">
       <section>
@@ -240,7 +246,7 @@ var runCurrentTest = function (newData) {
         <script>${injection.join("\n")}</script>
       </section>
     </div>`
-    }else{
+    } else {
       Function(injection.join("\n"))(); //we should look into this option, though I wasn't able to access internal variables and functions https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/Function
     }
   } catch (error) {
@@ -264,7 +270,7 @@ var runCurrentTest = function (newData) {
 function generateInjection() {
   var newArray = new Array();
   //here, you inject any lines of code you want
-  if(newData.type !== "demo"){
+  if (newData.type !== "demo") {
     newArray.push(`
     var currentFrame = new Frame();
     var frameStack = new Stack();
@@ -275,16 +281,16 @@ function generateInjection() {
   var newInjectedCode = breakIntoComponents(localStorage.getItem("textArea" + currentLabID)).join("\n");
   newArray.push(newInjectedCode);
 
-  if(newData.type === "demo"){
+  if (newData.type === "demo") {
     return newArray;
   }
   //push other tests here.
-    newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
-    newArray.push("(()=>{");
-    newArray.push(makeConsoleTester(newData.returnCurrentQuestion().logs));
-    newArray.push(makeVariableTester(newData.returnCurrentQuestion().vars));
-    newArray.push(makeFunctionTester(newData.returnCurrentQuestion().functs));
-    newArray.push("})()");
+  newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
+  newArray.push("(()=>{");
+  newArray.push(makeConsoleTester(newData.returnCurrentQuestion().logs));
+  newArray.push(makeVariableTester(newData.returnCurrentQuestion().vars));
+  newArray.push(makeFunctionTester(newData.returnCurrentQuestion().functs));
+  newArray.push("})()");
   newArray.push(` 
   window.currentFrame = currentFrame;
   console.log(window.currentFrame);
