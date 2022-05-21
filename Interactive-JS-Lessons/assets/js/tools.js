@@ -60,7 +60,7 @@ var injectHelpers = function (array, start) {
         var logArray = JSON.stringify(logString.split(/,(?=(?:(?:[^"|^']*"){2})*[^"|^']*$)/));
         newArray.push(`{
           let logString = ${logArray}.map(log=>JSON.stringify(eval(log))).join(" ").replace(/["|']/g, '');
-          window.top.postMessage(logString, '*')
+          parent.postMessage(logString, '*');
           }`);
       } else {
         newArray.push(string);
