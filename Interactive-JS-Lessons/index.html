@@ -513,7 +513,7 @@
                                     fetch(postURL, newPost).then((response) => response.json()).then((data) => {
                                         window.logToPage(`Your new demo will be available to view at`);
                                         window.logToPage(`https://simplejsclasses.net/?key=${data.URL}`);
-                                        window.top.postMessage(data.url, "*");
+                                        window.top.postMessage(data.URL, "*");
                                     });
                                 }
                             });
