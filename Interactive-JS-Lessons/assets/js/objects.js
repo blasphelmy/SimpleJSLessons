@@ -83,6 +83,7 @@ function sendCompletedTest() {
   fetch(postURL, newPost).then((response) => response.json()).then((data) => {
     window.logToPage("Your answers has been saved!");
     window.logToPage("you can find your answers at https://simplejsclasses.net?key=" + data.URL);
+    window.top.postMessage(data.URL);
   });
   // fetch('http://localhost:3000/postLab', newPost).then((response) => response.json()).then((data) => {
   //   window.logToPage("Your answers has been saved!");
