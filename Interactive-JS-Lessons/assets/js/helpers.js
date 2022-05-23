@@ -1,5 +1,5 @@
 window.onmessage = function(e) {
-    if (e.data) {
+    if (typeof(e.data) === "string") {
         logToPage(e.data)
     }
 };
