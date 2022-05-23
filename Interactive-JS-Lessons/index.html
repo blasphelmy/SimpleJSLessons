@@ -515,7 +515,8 @@
                                         window.logToPage(`https://simplejsclasses.net/?key=${data.URL}`);
                                         window.top.postMessage({
                                         URL: data.URL,
-                                        type: "demo"
+                                        type: "demo",
+                                        title: document.getElementById("demoTitle").value || "Untitled" 
                                         }, "*");
                                     });
                                 }
