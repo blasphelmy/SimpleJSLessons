@@ -7,6 +7,7 @@
     <script src="assets/js/jquery.js"></script>
 
     <!-- default bootstrap items -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/Navbar-Centered-Brand-Dark.css">
@@ -365,16 +366,18 @@
 
     .dmButtons {
         display: inline-block;
-        background-color: #2e2e2e;
-        padding-left: 16px;
-        padding-right: 16px;
+        background-color: #4e4e4e;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-right: 2px;
+        margin-left: 2px;
         border-top-right-radius: 5px;
         border-top-left-radius: 5px;
         cursor: pointer;
     }
 
     .dmButtons:hover {
-        background-color: #4a4a4a;
+        background-color: #2e2e2e;
     }
 
     .dmButtons>p {
@@ -386,7 +389,7 @@
     }
 
     .dmButtonsActive {
-        background-color: #4a4a4a;
+        background-color: #2e2e2e;
     }
     #demoTitle {
         position: relative;
@@ -412,7 +415,7 @@
 
         <div class="heightAdjustment"
             style="background: rgb(61, 61, 61);height: 200px;width: 49.999%;color: var(--bs-red);">
-            <span id="btnContainer" style="position: relative; top:0;display:none; width: 100%;">
+            <span id="btnContainer" class="noselect" style="position: relative; top:0;display:none; width: 100%;">
                 <span class="dmButtons" id="loadJS" style="margin-left: 0px;">
                     <p>JS</p>
                 </span>
@@ -423,6 +426,7 @@
                     <p>HTML</p>
                 </span>
                 <input id="demoTitle" type="text" placeholder="Name your Demo">
+                <!-- <span style="position: relative; float:right; cursor: pointer;"><i style="position: relative; top: 15px; right: 10px" class="bi bi-heart"> <span style="color:rgb(225, 225, 225)"> 0</span></i></span> -->
             </span>
             <script>
                 document.getElementById("loadJS").addEventListener("click", function () {
