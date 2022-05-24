@@ -87,6 +87,14 @@ function sendCompletedTest() {
         URL: data.URL,
         type: "lessonAnswers",
         title: newData.title,
+        data: JSON.stringify({
+          signature : newData.signature || undefined,
+          title: newData.title,
+          text : newData.text,
+          type : "lessonAnswers",
+          currentQuestion: 0,
+          testQuestionSet: newData.testQuestionSet
+        })
     },"*");
   });
   // fetch('http://localhost:3000/postLab', newPost).then((response) => response.json()).then((data) => {

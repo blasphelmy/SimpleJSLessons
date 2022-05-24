@@ -518,9 +518,18 @@
                                         window.logToPage(`Your new demo will be available to view at`);
                                         window.logToPage(`https://simplejsclasses.net/?key=${data.URL}`);
                                         window.top.postMessage({
-                                        URL: data.URL,
-                                        type: "demo",
-                                        title: document.getElementById("demoTitle").value || "Untitled" 
+                                            URL: data.URL,
+                                            type: "demo",
+                                            title: document.getElementById("demoTitle").value || "Untitled",
+                                            data: json.stringify({
+                                                signature: newData.signature || undefined,
+                                                type: "demo",
+                                                html: localStorage.getItem("textAreaHTML" + currentLabID) || newData.html,
+                                                js: localStorage.getItem("textArea" + currentLabID) || newData.js,
+                                                css: localStorage.getItem("textAreaCSS" + currentLabID) || newData.css,
+                                                title: document.getElementById("demoTitle").value || "Untitled",
+                                            })
+
                                         }, "*");
                                     });
                                 }
