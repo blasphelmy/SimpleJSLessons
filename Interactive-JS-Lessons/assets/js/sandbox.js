@@ -6,7 +6,13 @@ var getInitStartingCode;
 var activeContent = "JS";
 var urlParameters = new Map();
 var lessonPageIFrame;
-
+var labID = function () {
+  if(typeof(Number(urlParameters.get("key"))) === "Number"){
+    return urlParameters.get("key");
+  }else {
+    return 374760806408347;
+  }
+};
 var reqURL = "https://simplejsclasses.net/requestLab";
 var postURL = "https://simplejsclasses.net/postLab";
 
@@ -37,16 +43,40 @@ activeAnimationListener.registerListener(function (val) {
 });
 var currentLabID;
 function fetchData(newLabID) {
-  var data = { labID: newLabID || labID() };
-  var options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+  if(urlParameters.get("server") === "asp" && newLabID !== "undefined"){
+    reqURL = "https://localhost:44320/home/requestData";
+    var options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        dataHash: newLabID || labID() 
+      })
+    }
+  }else{
+    if(newLabID === "undefined"){
+      newLabID = labID()
+    }
+    var data = { labID: newLabID || labID() };
+    console.log(data);
+    var options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
   }
   fetch(reqURL, options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
+    if(typeof(data) === "string"){
+      try{
+        data = JSON.parse(data);
+      }catch{
+        console.log("error parsing data");
+      }
+    }
     if (data.error) {
       console.log(data.error);
       displayContents = displayError;

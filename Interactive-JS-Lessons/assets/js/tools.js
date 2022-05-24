@@ -3,14 +3,6 @@ var enableLineAnimations = false;
 var sandboxMode = false;//disables all injection and testing
 var gutterCounter = 0;
 var gutterDelay; //x seconds
-var labID = function () {
-  try {
-    var number = Number((window.location.href).split('?')[1].split('=')[1]);
-  } catch (error) {
-    return 374760806408347;
-  }
-  return number;
-};
 async function visualizeLineNumbers(hash, logs) {
   if (lineNumberMap.get(hash) || lineNumberMap.get(hash) === 0) {
     let lineNum = lineNumberMap.get(hash);

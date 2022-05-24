@@ -14,15 +14,15 @@ class Data {
     this.type = data.type || "lesson";
     this.title = data.title;
     this.text = data.text;
-    this.testQuestionSet = new Array();
+    this.testQuestionSet = data.testQuestionSet || new Array();
     this.currentQuestion = 0;
     this.signature = data.signature;
-    if (data) {
-      for (var i = 0; i < data.testQuestionSet.length; i++) {
-        var newQuestion = new Question(data.testQuestionSet[i]);
-        this.addQuestion(newQuestion);
-      }
-    }
+    // if (data) {
+    //   for (var i = 0; i < data.testQuestionSet.length; i++) {
+    //     var newQuestion = new Question(data.testQuestionSet[i]);
+    //     this.addQuestion(newQuestion);
+    //   }
+    // }
   }
   //add question setters and getters
   addQuestion(newQuestion) {
