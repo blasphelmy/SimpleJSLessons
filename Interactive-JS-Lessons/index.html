@@ -521,7 +521,7 @@
                                             URL: data.URL,
                                             type: "demo",
                                             title: document.getElementById("demoTitle").value || "Untitled",
-                                            data: json.stringify({
+                                            data: JSON.stringify({
                                                 signature: newData.signature || undefined,
                                                 type: "demo",
                                                 html: localStorage.getItem("textAreaHTML" + currentLabID) || newData.html,
