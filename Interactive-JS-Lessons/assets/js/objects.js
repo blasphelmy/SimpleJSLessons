@@ -88,7 +88,6 @@ function sendCompletedTest() {
         type: "lessonAnswers",
         title: newData.title,
         data: JSON.stringify({
-          signature : newData.signature || undefined,
           title: newData.title,
           text : newData.text,
           type : "lessonAnswers",
