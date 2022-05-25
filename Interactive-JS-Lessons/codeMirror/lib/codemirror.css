@@ -373,6 +373,10 @@ span.CodeMirror-selectedtext { background: none; }
   white-space: pre;
   color: rgb(218, 218, 218);
   cursor: pointer;
+  transition: .12s ease-in-out;
+}
+.CodeMirror-hint:hover {
+  background: #08f;
 }
 
 li.CodeMirror-hint-active {
