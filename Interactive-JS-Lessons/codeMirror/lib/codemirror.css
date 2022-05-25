@@ -347,3 +347,43 @@ div.CodeMirror-dragcursors {
 
 /* Help users use markselection to safely style text background */
 span.CodeMirror-selectedtext { background: none; }
+.CodeMirror-hints {
+  position: absolute;
+  z-index: 10;
+  overflow: hidden;
+  list-style: none;
+  backdrop-filter: blur(10px);
+  margin: 0;
+  padding: 2px;
+  -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+  -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+  box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+  border-radius: 3px;
+  border: 1px solid rgb(54, 54, 54);
+  background: rgba(0, 0, 0, 0.051);
+  font-size: 90%;
+  max-height: 20em;
+  overflow-y: auto;
+}
+
+.CodeMirror-hint {
+  margin: 0;
+  padding: 2px 4px;
+  border-radius: 2px;
+  white-space: pre;
+  color: rgb(218, 218, 218);
+  cursor: pointer;
+}
+
+li.CodeMirror-hint-active {
+  background: #08f;
+}
+.CodeMirror-hints::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.CodeMirror-hints {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

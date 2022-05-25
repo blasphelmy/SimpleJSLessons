@@ -8,11 +8,12 @@ var urlParameters = new Map();
 var lessonPageIFrame;
 var demoImage = null;
 var currentLabID;
+var escaped = false;
 var labID = function () {
-  if(typeof(Number(urlParameters.get("key"))) === "Number"){
+  if (typeof (Number(urlParameters.get("key"))) === "Number") {
     return urlParameters.get("key");
-  }else {
-    return 2767819876293702 ;
+  } else {
+    return 2767819876293702;
   }
 };
 var reqURL = "https://simplejsclasses.net/requestLab";
@@ -47,20 +48,20 @@ activeAnimationListener.registerListener(function (val) {
   }
 });
 function fetchData(newLabID) {
-  if(urlParameters.get("server") === "asp" && newLabID !== "undefined"){
+  if (urlParameters.get("server") === "asp" && newLabID !== "undefined") {
     reqURL = aspReqURL;
     var options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ 
-        dataHash: newLabID || labID() 
+      body: JSON.stringify({
+        dataHash: newLabID || labID()
       })
     }
-  }else{
+  } else {
     $("#uploadButton").css("display", "none");
-    if(newLabID === "undefined"){
+    if (newLabID === "undefined") {
       newLabID = labID()
     }
     var data = { labID: newLabID || labID() };
@@ -76,10 +77,10 @@ function fetchData(newLabID) {
   fetch(reqURL, options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
     console.log(data);
-    if(typeof(data) === "string"){
-      try{
+    if (typeof (data) === "string") {
+      try {
         data = JSON.parse(data);
-      }catch{
+      } catch {
         console.log("error parsing data");
       }
     }
@@ -195,12 +196,29 @@ function init(data) {
     value: getInitStartingCode(),
     theme: "myCodeEditorTheme",
     continueComments: "Enter",
-    mode: 'javascript',
+    mode: { name: "javascript", globalVars: true },
     lineWrapping: true,
     matchBrackets: true,
     autoCloseBrackets: true,
-    extraKeys: { "Ctrl-Q": "toggleComment" },
+    extraKeys: { "Ctrl-Space": "autocomplete" },
     scrollbarStyle: "null"
+  });
+  editor.on("keyup", function (cm, event) {
+    console.log(event.keyCode);
+    if (!cm.state.completionActive && event.keyCode != 13 && event.keyCode != 186 && event.keyCode != 27 && escaped === false) {
+      var scope = {};
+      for (var i in window) {
+        if (differce.indexOf(i) === -1 && RULES.indexOf(i) === -1) {
+          scope[i] = window[i]
+        }
+      }
+      CodeMirror.commands.autocomplete(cm, null, { completeSingle: false, globalScope: scope });
+    }
+    if(event.keyCode === 27){
+      escaped = true;
+    }else if(event.keyCode === 32 || event.keyCode === 8){
+      escaped = false;
+    }
   });
   document.getElementById("codeEditor").addEventListener("keyup", function () {
     if (activeContent === "JS") {
