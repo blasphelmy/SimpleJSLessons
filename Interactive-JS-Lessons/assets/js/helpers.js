@@ -16,14 +16,6 @@ window.onload = function () {
     elementOffSetter = document.getElementById("ConsoleContainer");
     var y = document.getElementById("runButtonContainer").offsetHeight;
     fillVerticalHeight(element, elementOffSetter.offsetHeight + x + y);
-    // document.getElementById("searchButton").addEventListener("click", function () {
-    //     var newLabID = document.getElementById("searchField").value;
-    //     if (window.location.href.match("simplejsclasses")) {
-    //         window.location.href = "/Interactive-JS-Lessons/?labID=" + newLabID;
-    //     } else {
-    //         window.location.href = "?key=" + newLabID;
-    //     }
-    // });
     extractURLParems();
     currentLabID = urlParameters.get("key") || 268945738906855;
     localStorage.setItem("saveTokenID", urlParameters.get("saveTokenID") || localStorage.getItem("saveTokenID"));

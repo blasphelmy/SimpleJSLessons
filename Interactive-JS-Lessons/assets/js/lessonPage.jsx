@@ -41,7 +41,7 @@ function displayTests (newData){
       }
     }()}
     <div className={`example` + function(){
-      if(newQuestion.example.trim() === ""){
+      if(typeof(newQuestion.example) === "undefined" || newQuestion.example.trim() === ""){
         return "hide";
       }else{
         return '';

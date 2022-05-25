@@ -7,11 +7,12 @@ var activeContent = "JS";
 var urlParameters = new Map();
 var lessonPageIFrame;
 var demoImage = null;
+var currentLabID;
 var labID = function () {
   if(typeof(Number(urlParameters.get("key"))) === "Number"){
     return urlParameters.get("key");
   }else {
-    return 374760806408347;
+    return 2767819876293702 ;
   }
 };
 var reqURL = "https://simplejsclasses.net/requestLab";
@@ -45,7 +46,6 @@ activeAnimationListener.registerListener(function (val) {
     document.getElementById("timingLabel").innerText = "Timing : " + (gutterDelay / 1000).toLocaleString("en", { useGrouping: false, minimumFractionDigits: 2 }) + "s ";
   }
 });
-var currentLabID;
 function fetchData(newLabID) {
   if(urlParameters.get("server") === "asp" && newLabID !== "undefined"){
     reqURL = aspReqURL;
@@ -75,6 +75,7 @@ function fetchData(newLabID) {
   }
   fetch(reqURL, options).then((response) => response.json()).then((data) => {
     //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
+    console.log(data);
     if(typeof(data) === "string"){
       try{
         data = JSON.parse(data);
@@ -125,14 +126,14 @@ function fetchData(newLabID) {
       } else if (data.testQuestionSet) {
 
         newData = new Data(data);
-        $("#publishDemo").css("display", "none");
+        console.log(newData);
         if (localStorage.getItem(("objectData" + currentLabID))) {
           newData.testQuestionSet = JSON.parse(localStorage.getItem(("objectData" + currentLabID)));
         } else {
           localStorage.setItem(("objectData" + currentLabID), JSON.stringify(newData.testQuestionSet));
         }
         console.log(newData);
-
+        $("#publishDemo").css("display", "none");
         getInitStartingCode = function () {
           if (localStorage.getItem(`${currentLabID}`)) {
             newData.currentQuestion = localStorage.getItem(`${currentLabID}`);
@@ -265,6 +266,7 @@ var runCurrentTest = function (newData) {
   window.failedTests = new Stack(); //very interesting
   try {
     var injection = generateInjection();
+    console.log(injection);
   } catch (error) {
     window.failedTests.push("Code error. Please try running in sandbox mode or disable timing functions if enabled");
     console.log(error);
@@ -322,6 +324,7 @@ function generateInjection() {
   //push other tests here.
   newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
   newArray.push("(()=>{");
+  console.log(newData.returnCurrentQuestion());
   newArray.push(makeConsoleTester(newData.returnCurrentQuestion().logs));
   newArray.push(makeVariableTester(newData.returnCurrentQuestion().vars));
   newArray.push(makeFunctionTester(newData.returnCurrentQuestion().functs));

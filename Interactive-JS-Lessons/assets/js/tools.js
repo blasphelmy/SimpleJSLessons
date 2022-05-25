@@ -39,7 +39,7 @@ var injectHelpers = function (array, start) {
       return newData.returnCurrentQuestion().stringsTests;
     }
   }();
-  let stringTests = new Stack(JSON.parse(JSON.stringify(stringtestdata))) || new Stack();
+  let stringTests = new Stack(stringtestdata) || new Stack();
   if (sandboxMode) {
     let newArray = new Array();
     for (let string of array) {
@@ -454,7 +454,7 @@ function variablesInjecters(data) {
 
 }
 function makeConsoleTester(logs) { //please remake this
-  if (logs.length === 0) {
+  if (typeof(logs) === "undefined" || logs.length === 0) {
     return ``
   }
   return `
@@ -469,7 +469,7 @@ function makeConsoleTester(logs) { //please remake this
 }
 
 function makeVariableTester(vars) {
-  if (vars.length === 0) {
+  if (typeof(vars) === "undefined" || vars.length === 0) {
     return ``
   }
   return `
@@ -494,7 +494,7 @@ function makeVariableTester(vars) {
 
 
 function makeFunctionTester(functs) {
-  if (functs.length === 0) {
+  if (typeof(functs) === "undefined" || functs.length === 0) {
     return ``;
   } else {
     var newArray = new Array();
@@ -520,12 +520,4 @@ function makeFunctionTester(functs) {
     }
     return newArray.join("\n");
   }
-}
-function encodeImageFileAsURL(element) {
-  var file = element.files[0];
-  var reader = new FileReader();
-  reader.onloadend = function() {
-    demoImage = reader.result;
-  }
-  reader.readAsDataURL(file);
 }
