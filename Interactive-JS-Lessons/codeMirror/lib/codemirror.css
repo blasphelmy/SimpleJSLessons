@@ -353,8 +353,10 @@ span.CodeMirror-selectedtext { background: none; }
   overflow: hidden;
   list-style: none;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  -moz-backdrop-filter: blur(10px);
   margin: 0;
-  padding: 2px;
+  padding: 3px;
   -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
   -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
   box-shadow: 2px 3px 5px rgba(0,0,0,.2);
@@ -369,14 +371,15 @@ span.CodeMirror-selectedtext { background: none; }
 .CodeMirror-hint {
   margin: 0;
   padding: 2px 4px;
+  margin-bottom: 3px;
   border-radius: 2px;
   white-space: pre;
   color: rgb(218, 218, 218);
   cursor: pointer;
-  transition: .12s ease-in-out;
+  transition: .07s ease-in-out;
 }
 .CodeMirror-hint:hover {
-  background: #08f;
+  background: rgb(0, 170, 255);
 }
 
 li.CodeMirror-hint-active {
