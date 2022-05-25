@@ -205,15 +205,8 @@ function init(data) {
   });
   editor.on("keyup", function (cm, event) {
     console.log(event.keyCode);
-    if (!cm.state.completionActive && event.keyCode != 13 && event.keyCode != 186 && event.keyCode != 27 && escaped === false) {
-      var scope = {};
-      for (var i in window) {
-        if (differce.indexOf(i) === -1 && RULES.indexOf(i) === -1) {
-          scope[i] = window[i]
-        }
-      }
-      console.log(scope);
-      CodeMirror.commands.autocomplete(cm, null, { completeSingle: false, globalScope: scope });
+    if (!cm.state.completionActive && event.keyCode != 13 && event.keyCode != 186 && event.keyCode != 27 && event.keyCode != 8 && escaped === false) {
+      CodeMirror.commands.autocomplete(cm, null, { completeSingle: false, globalScope: window });
     }
     if(event.keyCode === 27){
       escaped = true;
