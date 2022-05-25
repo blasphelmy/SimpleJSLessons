@@ -521,3 +521,11 @@ function makeFunctionTester(functs) {
     return newArray.join("\n");
   }
 }
+function encodeImageFileAsURL(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function() {
+    demoImage = reader.result;
+  }
+  reader.readAsDataURL(file);
+} 
