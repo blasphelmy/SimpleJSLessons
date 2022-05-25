@@ -8,8 +8,7 @@ var RULES = [
     "currentFrame", "labID", "frameStack", "failedTests", "newData", "newStack", "newClock", "gutterLineMap", "gutterCounter",
     "editor", "activeAnimationListener", "currentLabID", "enableLineAnimations", "gutterDelay", "gutterCounter", "RULES",
 ];
-var differce = ["window","self","document","name","location","customElements","history","locationbar","menubar","personalbar","scrollbars",
-"statusbar","toolbar","status","closed","frames","length","top","opener","parent","frameElement","navigator","origin","external","screen",
+var differce = ["parent","frameElement","navigator","origin","external","screen",
 "innerWidth","innerHeight","scrollX","pageXOffset","scrollY","pageYOffset","visualViewport","screenX","screenY","outerWidth","outerHeight",
 "devicePixelRatio","clientInformation","screenLeft","screenTop","defaultStatus","defaultstatus","styleMedia","onsearch","isSecureContext",
 "performance","onappinstalled","onbeforeinstallprompt","crypto","indexedDB","webkitStorageInfo","sessionStorage","onbeforexrselect","onabort",
@@ -33,4 +32,4 @@ var differce = ["window","self","document","name","location","customElements","h
 "cleanString","hash","checkForIllegalKW","breakIntoComponents","commentsCleanse","splitByBrackets","removeEmptyIndices","combineSemiColonsWithPreviousLines","detectStatementVariableReassignment",
 "gutter","getInitStartingCode","activeContent","urlParameters","lessonPageIFrame","demoImage","reqURL","postURL","aspReqURL","fetchData","init","addRunButtonEventListener","runCurrentTest","generateInjection",
 "logToPage","clearDemoButtons","React","ReactDOM","fillVerticalHeight","extractURLParems","parameter","displayContents","displayTests","displayDemo","displayError",
-"TEMPORARY","PERSISTENT","hasOwnProperty","__lookupGetter__","__lookupSetter__","isPrototypeOf"];
+"TEMPORARY","PERSISTENT","hasOwnProperty","differce", "__lookupGetter__","__lookupSetter__","isPrototypeOf"];

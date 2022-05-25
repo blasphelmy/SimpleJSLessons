@@ -212,6 +212,7 @@ function init(data) {
           scope[i] = window[i]
         }
       }
+      console.log(scope);
       CodeMirror.commands.autocomplete(cm, null, { completeSingle: false, globalScope: scope });
     }
     if(event.keyCode === 27){
