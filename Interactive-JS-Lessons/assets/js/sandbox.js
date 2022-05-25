@@ -6,6 +6,7 @@ var getInitStartingCode;
 var activeContent = "JS";
 var urlParameters = new Map();
 var lessonPageIFrame;
+var demoImage = null;
 var labID = function () {
   if(typeof(Number(urlParameters.get("key"))) === "Number"){
     return urlParameters.get("key");
@@ -15,6 +16,9 @@ var labID = function () {
 };
 var reqURL = "https://simplejsclasses.net/requestLab";
 var postURL = "https://simplejsclasses.net/postLab";
+
+var aspReqURL = "https://localhost:44320/Home/requestData";
+// aspReqURL = "https://localhost:5001/Home/requestData";
 
 // reqURL = "http://localhost:3000/requestLab";
 // postURL = "http://localhost:3000/postLab";
@@ -44,7 +48,7 @@ activeAnimationListener.registerListener(function (val) {
 var currentLabID;
 function fetchData(newLabID) {
   if(urlParameters.get("server") === "asp" && newLabID !== "undefined"){
-    reqURL = "https://localhost:44320/home/requestData";
+    reqURL = aspReqURL;
     var options = {
       method: 'POST',
       headers: {
@@ -55,6 +59,7 @@ function fetchData(newLabID) {
       })
     }
   }else{
+    $("#uploadButton").css("display", "none");
     if(newLabID === "undefined"){
       newLabID = labID()
     }

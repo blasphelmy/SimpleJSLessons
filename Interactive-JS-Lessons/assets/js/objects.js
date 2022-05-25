@@ -87,6 +87,7 @@ function sendCompletedTest() {
         URL: data.URL,
         type: "lessonAnswers",
         title: newData.title,
+        imageData : demoImage,
         data: JSON.stringify({
           title: newData.title,
           text : newData.text,
