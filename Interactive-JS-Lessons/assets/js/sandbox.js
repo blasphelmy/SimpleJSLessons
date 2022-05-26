@@ -20,7 +20,7 @@ var reqURL = "https://simplejsclasses.net/requestLab";
 var postURL = "https://simplejsclasses.net/postLab";
 
 var aspReqURL = "https://localhost:44320/Home/requestData";
-// aspReqURL = "https://localhost:5001/Home/requestData";
+aspReqURL = "https://localhost:5001/Home/requestData";
 
 // reqURL = "http://localhost:3000/requestLab";
 // postURL = "http://localhost:3000/postLab";
@@ -65,7 +65,6 @@ function fetchData(newLabID) {
       newLabID = labID()
     }
     var data = { labID: newLabID || labID() };
-    console.log(data);
     var options = {
       method: 'POST',
       headers: {
@@ -75,8 +74,6 @@ function fetchData(newLabID) {
     }
   }
   fetch(reqURL, options).then((response) => response.json()).then((data) => {
-    //i still need to create the ssl certs for the server. so we will just use http for now. I mean its not like im sending anything too interesting
-    console.log(data);
     if (typeof (data) === "string") {
       try {
         data = JSON.parse(data);
@@ -127,13 +124,11 @@ function fetchData(newLabID) {
       } else if (data.testQuestionSet) {
 
         newData = new Data(data);
-        console.log(newData);
         if (localStorage.getItem(("objectData" + currentLabID))) {
           newData.testQuestionSet = JSON.parse(localStorage.getItem(("objectData" + currentLabID)));
         } else {
           localStorage.setItem(("objectData" + currentLabID), JSON.stringify(newData.testQuestionSet));
         }
-        console.log(newData);
         $("#publishDemo").css("display", "none");
         getInitStartingCode = function () {
           if (localStorage.getItem(`${currentLabID}`)) {
@@ -204,14 +199,13 @@ function init(data) {
     scrollbarStyle: "null"
   });
   editor.on("keyup", function (cm, event) {
-    console.log(event.keyCode);
-    if (!cm.state.completionActive && event.keyCode != 13 && event.keyCode != 186 && event.keyCode != 27 && event.keyCode != 8 && escaped === false) {
-      CodeMirror.commands.autocomplete(cm, null, { completeSingle: false, globalScope: window });
-    }
     if(event.keyCode === 27){
       escaped = true;
     }else if(event.keyCode === 32 || event.keyCode === 8){
       escaped = false;
+    }
+    if (!cm.state.completionActive && event.keyCode != 13 && event.keyCode != 186 && event.keyCode != 16 && event.keyCode != 219 && event.keyCode != 27 && event.keyCode != 8 && escaped === false) {
+      CodeMirror.commands.autocomplete(cm, null, { completeSingle: false, globalScope: window });
     }
   });
   document.getElementById("codeEditor").addEventListener("keyup", function () {
