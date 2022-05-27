@@ -84,6 +84,9 @@ function breakIntoComponents(inputString) {
       if (checkForIllegalKW(inputString.join("\n"))) {
         return;
       }
+      if(newData.type === "demo"){
+        return inputString;
+      }
       let newSeed = Math.random() * 17;
       for (let i in inputString) {
         let newHash = hash(i + newSeed + "");
