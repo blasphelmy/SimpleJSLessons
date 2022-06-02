@@ -90,6 +90,13 @@ function fetchData(newLabID) {
       init(data);
     }
     else {
+      console.log(data)
+      if(data === -1){
+        data = {
+          type : "demo"
+        }
+      }
+      console.log(data.type)
       if (data.type === "demo") {
 
         $("#btnContainer").css("display", "inline");
@@ -330,7 +337,6 @@ function generateInjection() {
   //push other tests here.
   newArray.push("currentFrame = currentFrame.returnDefaultFrame();")
   newArray.push("(()=>{");
-  console.log(newData.returnCurrentQuestion());
   newArray.push(makeConsoleTester(newData.returnCurrentQuestion().logs));
   newArray.push(makeVariableTester(newData.returnCurrentQuestion().vars));
   newArray.push(makeFunctionTester(newData.returnCurrentQuestion().functs));

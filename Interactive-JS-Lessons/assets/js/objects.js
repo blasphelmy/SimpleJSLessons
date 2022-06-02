@@ -8,12 +8,14 @@ class Data {
   testQuestionSet;
   currentQuestion;
   constructor(data) {
-    this.js = data.js;
-    this.html = data.html;
-    this.css = data.css;
     this.type = data.type || "lesson";
     this.title = data.title;
     this.text = data.text;
+    if(data.type === "demo"){
+      this.js = data.js ?? "//your javascript code here";
+      this.html = data.html ?? "<!-- your html here -->";
+      this.css = data.css ?? "/* your css here */";
+    }
     this.testQuestionSet = data.testQuestionSet || new Array();
     this.currentQuestion = 0;
     this.signature = data.signature;
