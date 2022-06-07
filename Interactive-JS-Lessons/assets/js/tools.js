@@ -40,26 +40,26 @@ var injectHelpers = function (array, start) {
     }
   }();
   let stringTests = new Stack(stringtestdata) || new Stack();
-  if (sandboxMode) {
-    let newArray = new Array();
-    for (let string of array) {
-      string = string.trim();
-      if (string.match(/(^console.log)/)) {
-        var logString = string.split(/^([ ]*)+(?:[console])+([ ]*)+([.])+([ ]*)+(?:log)/gm)[5];
-        logString = logString.split(/(\/\/)(?=(?:[^"|`|']|"[^"]*")*$)/g)[0];
-        logString = logString.split(";")[0];
-        logString = logString.slice(1, logString.length - 1);
-        var logArray = JSON.stringify(logString.split(/,(?=(?:(?:[^"|^']*"){2})*[^"|^']*$)/));
-        newArray.push(`{
-          let logString = ${logArray}.map(log=>JSON.stringify(eval(log))).join(" ").replace(/["|']/g, '');
-          parent.postMessage(logString, '*');
-          }`);
-      } else {
-        newArray.push(string);
-      }
-    }
-    return newArray;
-  }
+  // if (sandboxMode) {
+  //   let newArray = new Array();
+  //   for (let string of array) {
+  //     string = string.trim();
+  //     if (string.match(/(^console.log)/)) {
+  //       var logString = string.split(/^([ ]*)+(?:[console])+([ ]*)+([.])+([ ]*)+(?:log)/gm)[5];
+  //       logString = logString.split(/(\/\/)(?=(?:[^"|`|']|"[^"]*")*$)/g)[0];
+  //       logString = logString.split(";")[0];
+  //       logString = logString.slice(1, logString.length - 1);
+  //       var logArray = JSON.stringify(logString.split(/,(?=(?:(?:[^"|^']*"){2})*[^"|^']*$)/));
+  //       newArray.push(`{
+  //         let logString = ${logArray}.map(log=>JSON.stringify(eval(log))).join(" ").replace(/["|']/g, '');
+  //         parent.postMessage(logString, '*');
+  //         }`);
+  //     } else {
+  //       newArray.push(string);
+  //     }
+  //   }
+  //   return newArray;
+  // }
 
   if (typeof (start) === "undefined") {
     start = 0;
