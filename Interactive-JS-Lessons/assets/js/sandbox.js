@@ -205,7 +205,7 @@ function init(data) {
     matchBrackets: true,
     autoCloseBrackets: true,
     extraKeys: { "Ctrl-Space": "autocomplete" },
-    scrollbarStyle: "null"
+    
   });
   editor.on("keyup", function (cm, event) {
     if(event.keyCode === 27){

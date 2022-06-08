@@ -7,6 +7,11 @@
   color: black;
   direction: ltr;
   z-index: 0;
+  -ms-overflow-style: none!important;  /* Internet Explorer 10+ */
+  scrollbar-width: none!important;  /* Firefox */
+}
+.CodeMirror::-webkit-scrollbar { 
+  display: none!important;  /* Safari and Chrome */
 }
 
 /* PADDING */
@@ -98,6 +103,16 @@
   border-left: 1px solid #ccc;
   top: 0; bottom: 0;
   position: absolute;
+}
+
+.CodeMirror-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.CodeMirror-scroll {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
 }
 
 /* DEFAULT THEME */

@@ -36,6 +36,9 @@
   text-decoration: underline;
   color: white !important;
 }
+.cm-s-myCodeEditorTheme::-webkit-scrollbar {
+  display: none;
+}
 
 .cm-operator {
     color: rgb(255, 87, 32);
