@@ -19,11 +19,13 @@ var labID = function () {
 var reqURL = "https://simplejsclasses.net/requestLab";
 var postURL = "https://simplejsclasses.net/postLab";
 
-var aspReqURL = "https://localhost:44320/Home/requestData";
-aspReqURL = "https://localhost:5001/Home/requestData";
+// var aspReqURL = "https://localhost:44320/Home/requestData";
+// aspReqURL = "https://localhost:5001/Home/requestData";
 
 // reqURL = "http://localhost:3000/requestLab";
 // postURL = "http://localhost:3000/postLab";
+
+var aspReqURL = "https://simplejslessons.azurewebsites.net/Home/requestData"
 
 var activeAnimationListener = {
   aInternal: 0,
